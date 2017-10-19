@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="BBDataLayer.cs" />
     <Compile Include="IDatabaseRecord.cs" />
+    <Compile Include="IDatabaseRecords.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

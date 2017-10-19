@@ -28,6 +28,7 @@ namespace GenerateDataLayer
                 sb = new StringBuilder();
 
                 sb.AppendLine("using System;");
+                sb.AppendLine("using System.Text;");
                 sb.AppendLine("using System.Linq;");
                 sb.AppendLine("using System.Configuration;");
                 sb.AppendLine("using System.Collections.Generic;");
@@ -51,7 +52,10 @@ namespace GenerateDataLayer
                             sb.AppendLine("\t}");
                             sb.AppendLine();
                         }
-                        sb.AppendLine("[ExcludeFromCodeCoverage]");
+                        //Create Collection class
+                        GetCollectionClass(Field.TableName, DatabaseFields.Where(x=>x.TableName==Field.TableName).ToList<DatabaseField>() , sb);
+
+                        sb.AppendLine("\t[ExcludeFromCodeCoverage]");
                         sb.Append("\tpublic class ");
                         sb.Append("DL_");
                         sb.Append(Field.TableName);
@@ -93,6 +97,79 @@ namespace GenerateDataLayer
                 }
 
             }
+        }
+
+        private void GetCollectionClass(string TableName, List<DatabaseField> Fields, StringBuilder sb)
+        {
+            sb.AppendLine("\t[ExcludeFromCodeCoverage]");
+            sb.Append("\tpublic class ");
+            sb.Append("DL_");
+            sb.Append(TableName);
+            sb.AppendLine("s : IDatabaseRecords");
+            sb.AppendLine("\t{");
+            sb.AppendLine();
+            sb.AppendLine("\t\tpublic List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)");
+            sb.AppendLine("\t\t{");
+            sb.AppendLine("\t\t\treturn Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);");
+            sb.AppendLine("\t\t}");
+            sb.AppendLine();
+            sb.Append("\t\tpublic List<DL_");
+            sb.Append(TableName);
+            sb.AppendLine("> Load(Dictionary<String, Object> WhereParams)");
+            sb.AppendLine("\t\t{");
+            sb.Append("\t\t\tList<DL_");
+            sb.Append(TableName);
+            sb.AppendLine("> result;");
+            sb.Append("\t\t\tvar SQL = \"Select ");
+            var Fieldnames = new StringBuilder();
+            foreach(var field in Fields)
+            {
+                Fieldnames.Append(field.FieldName);
+                Fieldnames.Append(", ");
+            }
+            sb.Append(Fieldnames.ToString().Substring(0, Fieldnames.ToString().Length - 2));
+            sb.AppendLine("\"");
+            sb.Append("\t\t\t+ \"FROM ");
+            sb.Append(TableName);
+            sb.AppendLine("\"");
+            sb.AppendLine("\t\t\t+ \" WHERE \";");
+            sb.AppendLine("\t\t\tvar sbSQL = new StringBuilder();");
+            sb.AppendLine("\t\t\tsbSQL.Append(SQL);");
+            sb.AppendLine("\t\t\tforeach(var param in WhereParams)");
+            sb.AppendLine("\t\t\t{");
+            sb.AppendLine("\t\t\t\tsbSQL.AppendLine(param.Key);");
+            sb.AppendLine("\t\t\t\tsbSQL.Append(\" = \");");
+            sb.AppendLine("\t\t\t\tsbSQL.Append(param.Value);");
+            sb.AppendLine("\t\t\t\tsbSQL.AppendLine(\" AND\");");
+            sb.AppendLine("\t\t\t}");
+            sb.AppendLine("\t\t\tusing (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings[\"BBcn\"].ConnectionString))");
+            sb.AppendLine("\t\t\tusing (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))");
+            sb.AppendLine("\t\t\tusing (SqlDataReader dr = cmd.ExecuteReader())");
+            sb.AppendLine("\t\t\t{");
+            sb.Append("\t\t\t\tresult = new List<DL_");
+            sb.Append(TableName);
+            sb.AppendLine(">();");
+            sb.AppendLine("\t\t\t\twhile(dr.Read())");
+            sb.AppendLine("\t\t\t\t{");
+            sb.Append("\t\t\t\t\tvar NewRow = new DL_");
+            sb.Append(TableName);
+            sb.AppendLine("();");
+            foreach(var field in Fields)
+            {
+                sb.Append("\t\t\t\t\tNewRow.");
+                sb.Append(field.FieldName);
+                sb.Append(" = dr.GetFieldValue<");
+                sb.Append(GetDotNetDataType(field.SQLDataType));
+                sb.Append(">(dr.GetOrdinal(\"");
+                sb.Append(field.FieldName);
+                sb.AppendLine("\"));");
+            }
+            sb.AppendLine("\t\t\t\t\tresult.Add(NewRow);");
+            sb.AppendLine("\t\t\t\t}");
+            sb.AppendLine("\t\t\t}");
+            sb.AppendLine("\t\t\treturn result;");
+            sb.AppendLine("\t\t}");
+            sb.AppendLine("\t}");
         }
 
         private List<DatabaseField> GetAllDatabaseFields()

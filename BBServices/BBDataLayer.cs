@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Linq;
 using System.Configuration;
 using System.Collections.Generic;
@@ -8,7 +9,48 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BB.DataLayer
 {
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_BasketItems : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_BasketItem> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_BasketItem> result;
+			var SQL = "Select CustomerId, ItemId, Number"
+			+ "FROM BasketItem"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_BasketItem>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_BasketItem();
+					NewRow.CustomerId = dr.GetFieldValue<decimal>(dr.GetOrdinal("CustomerId"));
+					NewRow.ItemId = dr.GetFieldValue<decimal>(dr.GetOrdinal("ItemId"));
+					NewRow.Number = dr.GetFieldValue<int>(dr.GetOrdinal("Number"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_BasketItem : IDatabaseRecord
 	{
 		public decimal CustomerId { get; set; }
@@ -55,7 +97,62 @@ namespace BB.DataLayer
 		}
 	}
 
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_Customers : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_Customer> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_Customer> result;
+			var SQL = "Select Id, Title, FirstName, LastName, AddressLine1, AddressLine2, AddressLine3, AddressLine4, PostalCode, Country, HomePhoneNo, MobilePhoneNo, EmailAddress, UserName, Salt, PasswordHash, PasswordNeedsChanging"
+			+ "FROM Customer"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_Customer>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_Customer();
+					NewRow.Id = dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
+					NewRow.Title = dr.GetFieldValue<string>(dr.GetOrdinal("Title"));
+					NewRow.FirstName = dr.GetFieldValue<string>(dr.GetOrdinal("FirstName"));
+					NewRow.LastName = dr.GetFieldValue<string>(dr.GetOrdinal("LastName"));
+					NewRow.AddressLine1 = dr.GetFieldValue<string>(dr.GetOrdinal("AddressLine1"));
+					NewRow.AddressLine2 = dr.GetFieldValue<string>(dr.GetOrdinal("AddressLine2"));
+					NewRow.AddressLine3 = dr.GetFieldValue<string>(dr.GetOrdinal("AddressLine3"));
+					NewRow.AddressLine4 = dr.GetFieldValue<string>(dr.GetOrdinal("AddressLine4"));
+					NewRow.PostalCode = dr.GetFieldValue<string>(dr.GetOrdinal("PostalCode"));
+					NewRow.Country = dr.GetFieldValue<string>(dr.GetOrdinal("Country"));
+					NewRow.HomePhoneNo = dr.GetFieldValue<string>(dr.GetOrdinal("HomePhoneNo"));
+					NewRow.MobilePhoneNo = dr.GetFieldValue<string>(dr.GetOrdinal("MobilePhoneNo"));
+					NewRow.EmailAddress = dr.GetFieldValue<string>(dr.GetOrdinal("EmailAddress"));
+					NewRow.UserName = dr.GetFieldValue<string>(dr.GetOrdinal("UserName"));
+					NewRow.Salt = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Salt"));
+					NewRow.PasswordHash = dr.GetFieldValue<string>(dr.GetOrdinal("PasswordHash"));
+					NewRow.PasswordNeedsChanging = dr.GetFieldValue<bool>(dr.GetOrdinal("PasswordNeedsChanging"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_Customer : IDatabaseRecord
 	{
 		public decimal Id { get; private set; }
@@ -141,7 +238,48 @@ namespace BB.DataLayer
 		}
 	}
 
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_Images : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_Image> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_Image> result;
+			var SQL = "Select Id, Image, ImageDescription"
+			+ "FROM Image"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_Image>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_Image();
+					NewRow.Id = dr.GetFieldValue<int>(dr.GetOrdinal("Id"));
+					NewRow.Image = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Image"));
+					NewRow.ImageDescription = dr.GetFieldValue<string>(dr.GetOrdinal("ImageDescription"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_Image : IDatabaseRecord
 	{
 		public int Id { get; private set; }
@@ -199,7 +337,52 @@ namespace BB.DataLayer
 		}
 	}
 
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_Items : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_Item> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_Item> result;
+			var SQL = "Select Id, Name, Description, Active, Price, Thumbnail, Timestamp"
+			+ "FROM Item"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_Item>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_Item();
+					NewRow.Id = dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
+					NewRow.Name = dr.GetFieldValue<string>(dr.GetOrdinal("Name"));
+					NewRow.Description = dr.GetFieldValue<string>(dr.GetOrdinal("Description"));
+					NewRow.Active = dr.GetFieldValue<bool>(dr.GetOrdinal("Active"));
+					NewRow.Price = dr.GetFieldValue<decimal>(dr.GetOrdinal("Price"));
+					NewRow.Thumbnail = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Thumbnail"));
+					NewRow.Timestamp = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Timestamp"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_Item : IDatabaseRecord
 	{
 		public decimal Id { get; private set; }
@@ -265,7 +448,47 @@ namespace BB.DataLayer
 		}
 	}
 
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_ItemImagess : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_ItemImages> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_ItemImages> result;
+			var SQL = "Select ItemId, ImageId"
+			+ "FROM ItemImages"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_ItemImages>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_ItemImages();
+					NewRow.ItemId = dr.GetFieldValue<decimal>(dr.GetOrdinal("ItemId"));
+					NewRow.ImageId = dr.GetFieldValue<decimal>(dr.GetOrdinal("ImageId"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_ItemImages : IDatabaseRecord
 	{
 		public decimal ItemId { get; set; }
@@ -310,7 +533,51 @@ namespace BB.DataLayer
 		}
 	}
 
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_Orders : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_Order> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_Order> result;
+			var SQL = "Select Id, CustomerId, DateOrderPlaced, DateOrderDispatched, SourceId, Cancelled"
+			+ "FROM Order"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_Order>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_Order();
+					NewRow.Id = dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
+					NewRow.CustomerId = dr.GetFieldValue<decimal>(dr.GetOrdinal("CustomerId"));
+					NewRow.DateOrderPlaced = dr.GetFieldValue<DateTime>(dr.GetOrdinal("DateOrderPlaced"));
+					NewRow.DateOrderDispatched = dr.GetFieldValue<DateTime>(dr.GetOrdinal("DateOrderDispatched"));
+					NewRow.SourceId = dr.GetFieldValue<decimal>(dr.GetOrdinal("SourceId"));
+					NewRow.Cancelled = dr.GetFieldValue<bool>(dr.GetOrdinal("Cancelled"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_Order : IDatabaseRecord
 	{
 		public decimal Id { get; private set; }
@@ -374,7 +641,48 @@ namespace BB.DataLayer
 		}
 	}
 
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_OrderLines : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_OrderLine> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_OrderLine> result;
+			var SQL = "Select OrderId, ItemId, Quantity"
+			+ "FROM OrderLine"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_OrderLine>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_OrderLine();
+					NewRow.OrderId = dr.GetFieldValue<decimal>(dr.GetOrdinal("OrderId"));
+					NewRow.ItemId = dr.GetFieldValue<decimal>(dr.GetOrdinal("ItemId"));
+					NewRow.Quantity = dr.GetFieldValue<int>(dr.GetOrdinal("Quantity"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_OrderLine : IDatabaseRecord
 	{
 		public decimal OrderId { get; set; }
@@ -421,7 +729,49 @@ namespace BB.DataLayer
 		}
 	}
 
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_PreviousPasswords : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_PreviousPassword> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_PreviousPassword> result;
+			var SQL = "Select CustomerId, CreationDate, Salt, PasswordHash"
+			+ "FROM PreviousPassword"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_PreviousPassword>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_PreviousPassword();
+					NewRow.CustomerId = dr.GetFieldValue<decimal>(dr.GetOrdinal("CustomerId"));
+					NewRow.CreationDate = dr.GetFieldValue<DateTime>(dr.GetOrdinal("CreationDate"));
+					NewRow.Salt = dr.GetFieldValue<string>(dr.GetOrdinal("Salt"));
+					NewRow.PasswordHash = dr.GetFieldValue<string>(dr.GetOrdinal("PasswordHash"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_PreviousPassword : IDatabaseRecord
 	{
 		public decimal CustomerId { get; set; }
@@ -470,7 +820,48 @@ namespace BB.DataLayer
 		}
 	}
 
-[ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
+	public class DL_Sources : IDatabaseRecords
+	{
+
+		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
+		{
+			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
+		}
+
+		public List<DL_Source> Load(Dictionary<String, Object> WhereParams)
+		{
+			List<DL_Source> result;
+			var SQL = "Select Id, Description, Name"
+			+ "FROM Source"
+			+ " WHERE ";
+			var sbSQL = new StringBuilder();
+			sbSQL.Append(SQL);
+			foreach(var param in WhereParams)
+			{
+				sbSQL.AppendLine(param.Key);
+				sbSQL.Append(" = ");
+				sbSQL.Append(param.Value);
+				sbSQL.AppendLine(" AND");
+			}
+			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
+			using (SqlCommand cmd = new SqlCommand(sbSQL.ToString().Substring(0, sbSQL.ToString().Length -4)))
+			using (SqlDataReader dr = cmd.ExecuteReader())
+			{
+				result = new List<DL_Source>();
+				while(dr.Read())
+				{
+					var NewRow = new DL_Source();
+					NewRow.Id = dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
+					NewRow.Description = dr.GetFieldValue<string>(dr.GetOrdinal("Description"));
+					NewRow.Name = dr.GetFieldValue<string>(dr.GetOrdinal("Name"));
+					result.Add(NewRow);
+				}
+			}
+			return result;
+		}
+	}
+	[ExcludeFromCodeCoverage]
 	public class DL_Source : IDatabaseRecord
 	{
 		public decimal Id { get; private set; }
