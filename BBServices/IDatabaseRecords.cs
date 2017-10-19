@@ -8,6 +8,6 @@ namespace BB.DataLayer
 {
     interface IDatabaseRecords
     {
-        List<IDatabaseRecord> LoadRecords(Dictionary<String, object> WhereParams);
+        void LoadRecords(Dictionary<String, object> WhereParams);
     }
 }

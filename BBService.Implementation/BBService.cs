@@ -62,19 +62,24 @@ namespace BB.Implementation
                 throw new Exception(Security.PASSWORD_PREVIOUS_TO_CHECK_MISSING);
             }
 
-            List<DL_PreviousPassword> PreviousPasswords = null;
-
+            PasswordCheckResponse PwCheckResponse;
             if (NumberPrevPwdsToCheck > 0)
             {
                 //get a list of the number previous passwords in the last six months
+                //get the previous passwords
+                var PasswordQuery = new Dictionary<String, Object>();
+                PasswordQuery.Add("CustomerId", request.Customer.Id);
+                var PreviousPasswords = new DL_PreviousPasswords();
+                PreviousPasswords.LoadRecords(PasswordQuery);
                 //PreviousPasswords = request.Customer.PreviousPasswords.OrderByDescending(e=>e. Where(e => e.ExipirationDate > DateTime.Now.AddMonths(-6)).ToList<PreviousPassword>();
+                PwCheckResponse = Security.CheckPassword(request.NewPassword, PreviousPasswords.Records.OrderByDescending(x=>x.CreationDate).Take(NumberPrevPwdsToCheck).ToList<DL_PreviousPassword>());
             }
 
-            PasswordCheckResponse response = Security.CheckPassword(request.NewPassword, PreviousPasswords);
+            PwCheckResponse = Security.CheckPassword(request.NewPassword, null);
 
-            if (!response.PasswordOK)
+            if (!PwCheckResponse.PasswordOK)
             {
-                return new ChangePasswordResponse { CallResult = 1, Message = response.Message, MessageType = MessageType.Error };
+                return new ChangePasswordResponse { CallResult = 1, Message = PwCheckResponse.Message, MessageType = MessageType.Error };
             }
 
             return new ChangePasswordResponse { CallResult = 0 };

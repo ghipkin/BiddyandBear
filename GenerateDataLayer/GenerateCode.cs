@@ -107,15 +107,11 @@ namespace GenerateDataLayer
             sb.Append(TableName);
             sb.AppendLine("s : IDatabaseRecords");
             sb.AppendLine("\t{");
-            sb.AppendLine();
-            sb.AppendLine("\t\tpublic List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)");
-            sb.AppendLine("\t\t{");
-            sb.AppendLine("\t\t\treturn Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);");
-            sb.AppendLine("\t\t}");
-            sb.AppendLine();
             sb.Append("\t\tpublic List<DL_");
             sb.Append(TableName);
-            sb.AppendLine("> Load(Dictionary<String, Object> WhereParams)");
+            sb.AppendLine("> Records { get; private set; }");
+            sb.AppendLine();
+            sb.AppendLine("\t\tpublic void LoadRecords(Dictionary<String, Object> WhereParams)");
             sb.AppendLine("\t\t{");
             sb.Append("\t\t\tList<DL_");
             sb.Append(TableName);
@@ -129,7 +125,7 @@ namespace GenerateDataLayer
             }
             sb.Append(Fieldnames.ToString().Substring(0, Fieldnames.ToString().Length - 2));
             sb.AppendLine("\"");
-            sb.Append("\t\t\t+ \"FROM ");
+            sb.Append("\t\t\t+ \" FROM ");
             sb.Append(TableName);
             sb.AppendLine("\"");
             sb.AppendLine("\t\t\t+ \" WHERE \";");
@@ -167,9 +163,10 @@ namespace GenerateDataLayer
             sb.AppendLine("\t\t\t\t\tresult.Add(NewRow);");
             sb.AppendLine("\t\t\t\t}");
             sb.AppendLine("\t\t\t}");
-            sb.AppendLine("\t\t\treturn result;");
+            sb.AppendLine("\t\t\tRecords = result;");
             sb.AppendLine("\t\t}");
             sb.AppendLine("\t}");
+            sb.AppendLine("");
         }
 
         private List<DatabaseField> GetAllDatabaseFields()

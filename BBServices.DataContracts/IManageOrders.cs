@@ -1,5 +1,5 @@
 ﻿using System.ServiceModel;
-using BB.Contracts;
+using BB.DataContracts;
 
 namespace BB.DataContracts
 {

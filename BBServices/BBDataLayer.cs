@@ -12,13 +12,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_BasketItems : IDatabaseRecords
 	{
+		public List<DL_BasketItem> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_BasketItem> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_BasketItem> result;
 			var SQL = "Select CustomerId, ItemId, Number"
@@ -47,9 +43,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_BasketItem : IDatabaseRecord
 	{
@@ -100,13 +97,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Customers : IDatabaseRecords
 	{
+		public List<DL_Customer> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_Customer> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_Customer> result;
 			var SQL = "Select Id, Title, FirstName, LastName, AddressLine1, AddressLine2, AddressLine3, AddressLine4, PostalCode, Country, HomePhoneNo, MobilePhoneNo, EmailAddress, UserName, Salt, PasswordHash, PasswordNeedsChanging"
@@ -149,9 +142,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_Customer : IDatabaseRecord
 	{
@@ -241,13 +235,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Images : IDatabaseRecords
 	{
+		public List<DL_Image> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_Image> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_Image> result;
 			var SQL = "Select Id, Image, ImageDescription"
@@ -276,9 +266,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_Image : IDatabaseRecord
 	{
@@ -340,13 +331,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Items : IDatabaseRecords
 	{
+		public List<DL_Item> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_Item> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_Item> result;
 			var SQL = "Select Id, Name, Description, Active, Price, Thumbnail, Timestamp"
@@ -379,9 +366,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_Item : IDatabaseRecord
 	{
@@ -451,13 +439,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_ItemImagess : IDatabaseRecords
 	{
+		public List<DL_ItemImages> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_ItemImages> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_ItemImages> result;
 			var SQL = "Select ItemId, ImageId"
@@ -485,9 +469,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_ItemImages : IDatabaseRecord
 	{
@@ -536,13 +521,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Orders : IDatabaseRecords
 	{
+		public List<DL_Order> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_Order> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_Order> result;
 			var SQL = "Select Id, CustomerId, DateOrderPlaced, DateOrderDispatched, SourceId, Cancelled"
@@ -574,9 +555,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_Order : IDatabaseRecord
 	{
@@ -644,13 +626,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_OrderLines : IDatabaseRecords
 	{
+		public List<DL_OrderLine> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_OrderLine> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_OrderLine> result;
 			var SQL = "Select OrderId, ItemId, Quantity"
@@ -679,9 +657,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_OrderLine : IDatabaseRecord
 	{
@@ -732,13 +711,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_PreviousPasswords : IDatabaseRecords
 	{
+		public List<DL_PreviousPassword> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_PreviousPassword> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_PreviousPassword> result;
 			var SQL = "Select CustomerId, CreationDate, Salt, PasswordHash"
@@ -768,9 +743,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_PreviousPassword : IDatabaseRecord
 	{
@@ -823,13 +799,9 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Sources : IDatabaseRecords
 	{
+		public List<DL_Source> Records { get; private set; }
 
-		public List<IDatabaseRecord> LoadRecords(Dictionary<String, Object> WhereParams)
-		{
-			return Load(WhereParams).ConvertAll(x=>(IDatabaseRecord)x);
-		}
-
-		public List<DL_Source> Load(Dictionary<String, Object> WhereParams)
+		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_Source> result;
 			var SQL = "Select Id, Description, Name"
@@ -858,9 +830,10 @@ namespace BB.DataLayer
 					result.Add(NewRow);
 				}
 			}
-			return result;
+			Records = result;
 		}
 	}
+
 	[ExcludeFromCodeCoverage]
 	public class DL_Source : IDatabaseRecord
 	{

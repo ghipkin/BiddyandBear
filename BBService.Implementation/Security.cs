@@ -70,7 +70,7 @@ namespace BB.Implementation
             return Salt;
         }
 
-        public static PasswordCheckResponse CheckPassword(string Password, IEnumerable<PreviousPassword> PreviousPasswords)
+        public static PasswordCheckResponse CheckPassword(string Password, List<DL_PreviousPassword> PreviousPasswords)
         {
             //Get the settings from the config file
             var SecuritySettings = (SecuritySection)ConfigurationManager.GetSection("passwordPolicies");
