@@ -53,7 +53,6 @@ namespace BB.DataLayer
 		public decimal CustomerId { get; set; }
 		public decimal ItemId { get; set; }
 		public int Number { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -91,6 +90,21 @@ namespace BB.DataLayer
 					}
 				}
 			}
+		}
+	}
+
+	[ExcludeFromCodeCoverage]
+	public class MOCK_BasketItem : IDatabaseRecord
+	{
+		public decimal CustomerId { get; set; }
+		public decimal ItemId { get; set; }
+		public int Number { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
 		}
 	}
 
@@ -166,7 +180,6 @@ namespace BB.DataLayer
 		public byte[] Salt { get; set; }
 		public string PasswordHash { get; set; }
 		public bool PasswordNeedsChanging { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -233,6 +246,35 @@ namespace BB.DataLayer
 	}
 
 	[ExcludeFromCodeCoverage]
+	public class MOCK_Customer : IDatabaseRecord
+	{
+		public decimal Id { get; internal set; }
+		public string Title { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string AddressLine1 { get; set; }
+		public string AddressLine2 { get; set; }
+		public string AddressLine3 { get; set; }
+		public string AddressLine4 { get; set; }
+		public string PostalCode { get; set; }
+		public string Country { get; set; }
+		public string HomePhoneNo { get; set; }
+		public string MobilePhoneNo { get; set; }
+		public string EmailAddress { get; set; }
+		public string UserName { get; set; }
+		public byte[] Salt { get; set; }
+		public string PasswordHash { get; set; }
+		public bool PasswordNeedsChanging { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
+		}
+	}
+
+	[ExcludeFromCodeCoverage]
 	public class DL_Images : IDatabaseRecords
 	{
 		public List<DL_Image> Records { get; private set; }
@@ -276,7 +318,6 @@ namespace BB.DataLayer
 		public decimal Id { get; internal set; }
 		public byte[] ImageContent { get; set; }
 		public string ImageDescription { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -325,6 +366,21 @@ namespace BB.DataLayer
 					}
 				}
 			}
+		}
+	}
+
+	[ExcludeFromCodeCoverage]
+	public class MOCK_Image : IDatabaseRecord
+	{
+		public decimal Id { get; internal set; }
+		public byte[] ImageContent { get; set; }
+		public string ImageDescription { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
 		}
 	}
 
@@ -380,7 +436,6 @@ namespace BB.DataLayer
 		public decimal Price { get; set; }
 		public byte[] Thumbnail { get; set; }
 		public byte[] Timestamp { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -437,6 +492,25 @@ namespace BB.DataLayer
 	}
 
 	[ExcludeFromCodeCoverage]
+	public class MOCK_Item : IDatabaseRecord
+	{
+		public decimal Id { get; internal set; }
+		public string Name { get; set; }
+		public string Description { get; set; }
+		public bool Active { get; set; }
+		public decimal Price { get; set; }
+		public byte[] Thumbnail { get; set; }
+		public byte[] Timestamp { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
+		}
+	}
+
+	[ExcludeFromCodeCoverage]
 	public class DL_ItemImagess : IDatabaseRecords
 	{
 		public List<DL_ItemImages> Records { get; private set; }
@@ -478,7 +552,6 @@ namespace BB.DataLayer
 	{
 		public decimal ItemId { get; set; }
 		public decimal ImageId { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -515,6 +588,20 @@ namespace BB.DataLayer
 					}
 				}
 			}
+		}
+	}
+
+	[ExcludeFromCodeCoverage]
+	public class MOCK_ItemImages : IDatabaseRecord
+	{
+		public decimal ItemId { get; set; }
+		public decimal ImageId { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
 		}
 	}
 
@@ -568,7 +655,6 @@ namespace BB.DataLayer
 		public DateTime DateOrderDispatched { get; set; }
 		public decimal SourceId { get; set; }
 		public bool Cancelled { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -624,6 +710,24 @@ namespace BB.DataLayer
 	}
 
 	[ExcludeFromCodeCoverage]
+	public class MOCK_Order : IDatabaseRecord
+	{
+		public decimal Id { get; internal set; }
+		public decimal CustomerId { get; set; }
+		public DateTime DateOrderPlaced { get; set; }
+		public DateTime DateOrderDispatched { get; set; }
+		public decimal SourceId { get; set; }
+		public bool Cancelled { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
+		}
+	}
+
+	[ExcludeFromCodeCoverage]
 	public class DL_OrderLines : IDatabaseRecords
 	{
 		public List<DL_OrderLine> Records { get; private set; }
@@ -667,7 +771,6 @@ namespace BB.DataLayer
 		public decimal OrderId { get; set; }
 		public decimal ItemId { get; set; }
 		public int Quantity { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -705,6 +808,21 @@ namespace BB.DataLayer
 					}
 				}
 			}
+		}
+	}
+
+	[ExcludeFromCodeCoverage]
+	public class MOCK_OrderLine : IDatabaseRecord
+	{
+		public decimal OrderId { get; set; }
+		public decimal ItemId { get; set; }
+		public int Quantity { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
 		}
 	}
 
@@ -754,7 +872,6 @@ namespace BB.DataLayer
 		public DateTime CreationDate { get; set; }
 		public string Salt { get; set; }
 		public string PasswordHash { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -793,6 +910,22 @@ namespace BB.DataLayer
 					}
 				}
 			}
+		}
+	}
+
+	[ExcludeFromCodeCoverage]
+	public class MOCK_PreviousPassword : IDatabaseRecord
+	{
+		public decimal CustomerId { get; set; }
+		public DateTime CreationDate { get; set; }
+		public string Salt { get; set; }
+		public string PasswordHash { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
 		}
 	}
 
@@ -840,7 +973,6 @@ namespace BB.DataLayer
 		public decimal Id { get; internal set; }
 		public string Description { get; set; }
 		public string Name { get; set; }
-
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
@@ -889,6 +1021,23 @@ namespace BB.DataLayer
 					}
 				}
 			}
+		}
+
+
+	[ExcludeFromCodeCoverage]
+	public class MOCK_Source : IDatabaseRecord
+	{
+		public decimal Id { get; internal set; }
+		public string Description { get; set; }
+		public string Name { get; set; }
+		public void Save()
+		{
+		}
+
+		public void Load(Dictionary<string, object> parms)
+		{
+		}
+
 		}
 	}
 }

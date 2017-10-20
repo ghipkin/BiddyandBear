@@ -39,51 +39,59 @@ namespace GenerateDataLayer
                 sb.AppendLine("namespace BB.DataLayer");
                 sb.AppendLine("{");
 
+                StringBuilder RecordClass= new StringBuilder();
+                StringBuilder MockClass = new StringBuilder();
                 string CurrentTable = string.Empty;
                 foreach(var Field in DatabaseFields)
                 {
-                    if (CurrentTable != Field.TableName)
+                    //are we onto a new table
+                    if (CurrentTable != Field.TableName) 
                     {
+                        //if this is not the first table, then we need to finish off the last one
                         if (!string.IsNullOrEmpty(CurrentTable))
                         {
-                            sb.AppendLine();
-                            //Add the overriding methods for the previous class
-                            AppendOverridingMethods(CurrentTable, DatabaseFields.Where( x=>x.TableName == CurrentTable).ToList<DatabaseField>(), sb);
-                            sb.AppendLine("\t}");
-                            sb.AppendLine();
+                            //Add the overriding methods for the previous class(es)
+                            AppendOverridingMethods(CurrentTable, DatabaseFields.Where( x=>x.TableName == CurrentTable).ToList<DatabaseField>(), RecordClass);
+                            AppendMockedMethods(MockClass);
+
+                            //close the Record and mock class
+                            RecordClass.AppendLine("\t}");
+                            MockClass.AppendLine("\t}");
+
+                            //append the record and mocked class to the main stringbuilder
+                            sb.AppendLine(RecordClass.ToString());
+                            sb.AppendLine(MockClass.ToString());
+
+                            //Renew Class StringBuilders for the next table
+                            RecordClass = new StringBuilder();
+                            MockClass = new StringBuilder();
+
                         }
                         //Create Collection class
                         GetCollectionClass(Field.TableName, DatabaseFields.Where(x=>x.TableName==Field.TableName).ToList<DatabaseField>() , sb);
 
-                        sb.AppendLine("\t[ExcludeFromCodeCoverage]");
-                        sb.Append("\tpublic class ");
-                        sb.Append("DL_");
-                        sb.Append(Field.TableName);
-                        sb.AppendLine(" : IDatabaseRecord");
-                        sb.AppendLine("\t{");
-                    }
-                    sb.Append("\t\tpublic ");
-                    sb.Append(GetDotNetDataType(Field.SQLDataType));
-                    sb.Append(" ");
-                    sb.Append(Field.FieldName);
-                    sb.Append(" { get;");
-                    if (Field.SQLDataType == "Timestamp") //should not be able to change timestamp fields
-                    {
-                        sb.Append(" private");
-                    }
-                    else if(Field.IsIdentity)//should only be able to set identity fields insie the Datalayer dll
-                    {
-                        sb.Append(" internal");
-                    }
-                    sb.Append(" set; }");
-                    sb.AppendLine();
+                        //initialise the mock and record classes
+                        GetClassHeader("DL_" + Field.TableName, RecordClass);
+                        GetClassHeader("MOCK_" + Field.TableName, MockClass);
 
+                    }
+
+                    //get the property code for this field in the mock and record class
+                    GetPropertyText(Field, RecordClass);
+                    GetPropertyText(Field, MockClass);
+
+                    //get the current table
                     CurrentTable = Field.TableName;
                 }
-                sb.AppendLine();
-                //Add the overriding methods for the previous class
-                AppendOverridingMethods(CurrentTable, DatabaseFields.Where(x => x.TableName == CurrentTable).ToList<DatabaseField>(), sb);
+                //Add the overriding methods for the previous class(es)
+                AppendOverridingMethods(CurrentTable, DatabaseFields.Where(x => x.TableName == CurrentTable).ToList<DatabaseField>(), RecordClass);
+                AppendMockedMethods(MockClass);
 
+                //append the record and mocked class to the main stringbuilder
+                sb.AppendLine(RecordClass.ToString());
+                sb.AppendLine();
+                sb.AppendLine(MockClass.ToString());
+                sb.AppendLine("\t\t}");
 
                 sb.AppendLine("\t}");
                 sb.AppendLine("}");
@@ -101,6 +109,34 @@ namespace GenerateDataLayer
                 }
 
             }
+        }
+
+        private void GetClassHeader(String ClassName, StringBuilder sb)
+        {
+            sb.AppendLine("\t[ExcludeFromCodeCoverage]");
+            sb.Append("\tpublic class ");
+            sb.Append(ClassName);
+            sb.AppendLine(" : IDatabaseRecord");
+            sb.AppendLine("\t{");
+        }
+
+        private void GetPropertyText(DatabaseField Field, StringBuilder sb)
+        {
+            sb.Append("\t\tpublic ");
+            sb.Append(GetDotNetDataType(Field.SQLDataType));
+            sb.Append(" ");
+            sb.Append(Field.FieldName);
+            sb.Append(" { get;");
+            if (Field.SQLDataType == "Timestamp") //should not be able to change timestamp fields
+            {
+                sb.Append(" private");
+            }
+            else if (Field.IsIdentity)//should only be able to set identity fields inside the Datalayer dll
+            {
+                sb.Append(" internal");
+            }
+            sb.Append(" set; }");
+            sb.AppendLine();
         }
 
         private void GetCollectionClass(string TableName, List<DatabaseField> Fields, StringBuilder sb)
@@ -442,6 +478,18 @@ namespace GenerateDataLayer
             sb.AppendLine("\t\t\t}");
             sb.AppendLine("\t\t}");
         }
+
+        private void AppendMockedMethods(StringBuilder sb)
+        {
+            sb.AppendLine("\t\tpublic void Save()");
+            sb.AppendLine("\t\t{");
+            sb.AppendLine("\t\t}");
+            sb.AppendLine();
+            sb.AppendLine("\t\tpublic void Load(Dictionary<string, object> parms)");
+            sb.AppendLine("\t\t{");
+            sb.AppendLine("\t\t}");
+        }
+
 
         private class DatabaseField
         {
