@@ -4,6 +4,7 @@ using BB.Implementation;
 using BB.DataLayer;
 using BB.DataContracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace BB.UnitTest
 {
@@ -24,6 +25,10 @@ namespace BB.UnitTest
         private const string MOBILE_PHONE= "0791 111111";
         private const string EMAIL_ADDRESS= "nigel@merkintheft.com";
 
+        private const string USERNAME = "nmerkintheft";
+        private const string PASSWORD_HASH = "password";
+        private byte[] SALT = { (byte)1, (byte)2, (byte)3, (byte)4, (byte)5 };
+
         private const int SOURCE_ID = 12;
         private const string SOURCE_NAME = "internet";
         private const string SOURCE_DESCRIPTION = "order from the internet";
@@ -35,23 +40,37 @@ namespace BB.UnitTest
 
         #endregion
 
-        //[TestMethod]
-        //public void RegisterUserHappyPath()
-        //{
-        //    //ARRANGE
-        //    var mock = new BBDataLayer_Mock();
-        //    var svc = new BB.Implementation.BBService(mock);
-        //    var customer = GetCustomer();
-        //    var request = new RegisterCustomerRequest { NewCustomer = customer };
+        [TestMethod]
+        public void RegisterUserHappyPath()
+        {
+            //ARRANGE
+            var MockDLCustomer = new Mock<IDatabaseRecord>();
+            MockDLCustomer.Setup(x => x.Save());
+            var customer = GetCustomer();
+            var request = new RegisterCustomerRequest { NewCustomer = customer, UserName = USERNAME};
 
-        //    //ACT
-        //    var response = svc.RegisterUser(request);
+            var MockSecurity = new Mock<ISecurityMethods>();
+            MockSecurity.Setup(x => x.GenerateNewSalt()).Returns(SALT);
+            MockSecurity.Setup(x => x.GetPasswordHash(It.IsAny<byte[]>(), It.IsAny<String>())).Returns(PASSWORD_HASH);
 
-        //    //ASSERT
-        //    Assert.AreEqual(0, response.CallResult);
-        //    Assert.IsTrue(String.IsNullOrEmpty(response.Message));
-        //    Assert.IsTrue(mock.SaveChangesCalled);
-        //}
+            //create service object with mocks
+            var svc = new BB.Implementation.BBService();
+            svc.MockCustomer = MockDLCustomer.Object;
+            svc.MockSecurity = MockSecurity.Object;
+
+            //ACT
+            var response = svc.RegisterUser(request);
+
+            //ASSERT
+            Assert.AreEqual(0, response.CallResult);
+            Assert.IsTrue(String.IsNullOrEmpty(response.Message));
+
+            DL_Customer SavedCustomer = (DL_Customer)MockDLCustomer.Object;
+            Assert.AreEqual(SALT, SavedCustomer.Salt);
+            Assert.IsTrue(SavedCustomer.PasswordNeedsChanging);
+            Assert.AreEqual(USERNAME, SavedCustomer.UserName);
+            Assert.AreEqual(PASSWORD_HASH, SavedCustomer.PasswordHash);
+        }
 
         //[TestMethod]
         //public void RegisterUserFailure()
@@ -71,7 +90,7 @@ namespace BB.UnitTest
         //    Assert.IsFalse(String.IsNullOrEmpty(response.Message));
         //    Assert.IsTrue(mock.SaveChangesCalled);
         //    Assert.AreEqual(Implementation.BBService.REGISTER_CUSTOMER_SAVE_FAILED, response.Message);
-            
+
         //}
 
         //[TestMethod]
@@ -113,69 +132,48 @@ namespace BB.UnitTest
         //    Assert.IsTrue(mock.SaveChangesCalled);
         //}
 
-        //private Customer GetCustomer()
-        //{
-        //    var customer = new Customer();
+        private Customer GetCustomer()
+        {
+            var customer = new Customer();
 
-        //    customer.Title = TITLE;
-        //    customer.FirstName = FIRST_NAME;
-        //    customer.LastName = LAST_NAME;
-        //    customer.AddressLine1 = ADDRESS_LINE_1;
-        //    customer.AddressLine2 = ADDRESS_LINE_2;
-        //    customer.AddressLine3 = ADDRESS_LINE_3;
-        //    customer.AddressLine4 = ADDRESS_LINE_4;
-        //    customer.PostalCode = POSTCODE;
-        //    customer.HomePhoneNo = HOME_PHONE;
-        //    customer.MobilePhoneNo = MOBILE_PHONE;
-        //    customer.EmailAddress = EMAIL_ADDRESS;
+            customer.Title = TITLE;
+            customer.FirstName = FIRST_NAME;
+            customer.LastName = LAST_NAME;
+            customer.AddressLine1 = ADDRESS_LINE_1;
+            customer.AddressLine2 = ADDRESS_LINE_2;
+            customer.AddressLine3 = ADDRESS_LINE_3;
+            customer.AddressLine4 = ADDRESS_LINE_4;
+            customer.PostalCode = POSTCODE;
+            customer.HomePhoneNo = HOME_PHONE;
+            customer.MobilePhoneNo = MOBILE_PHONE;
+            customer.EmailAddress = EMAIL_ADDRESS;
 
-        //    return customer;
-        //}
+            return customer;
+        }
 
-        //private Order GetOrder()
-        //{
-        //    var order = new Order();
+        private Order GetOrder()
+        {
+            var order = new Order();
 
-        //    order.Cancelled = false;
-        //    //order.Customer = GetCustomer();
-        //    order.CustomerId = order.CustomerId
-        //    order.DateOrderPlaced = DateTime.Now;
-        //    //order.Source = GetSource();
-        //    order.SourceId = order.SourceId;
-        //    //order.OrderLines = GetOrderLines();
+            order.Cancelled = false;
+            //order.Customer = GetCustomer();
+            //order.CustomerId = order.CustomerId
+            order.DateOrderPlaced = DateTime.Now;
+            //order.Source = GetSource();
+            order.SourceId = order.SourceId;
+            //order.OrderLines = GetOrderLines();
 
-        //    return order;
-        //}
+            return order;
+        }
 
-        //private Source GetSource()
-        //{
-        //    var source = new Source();
-        //    source.Description = SOURCE_DESCRIPTION;
-        //    source.Name = SOURCE_NAME;
-        //    source.Id = SOURCE_ID;
+        private Source GetSource()
+        {
+            var source = new Source();
+            source.Description = SOURCE_DESCRIPTION;
+            source.Name = SOURCE_NAME;
+            //source.Id = SOURCE_ID;
 
-        //    return source;
-        //}
-
-        //private List<OrderLine> GetOrderLines()
-        //{
-        //    var orderlines = new List<OrderLine>();
-        //    var orderline = new OrderLine();
-
-        //    var item = new Item();
-        //    item.Active = true;
-        //    item.Description = ITEM_DESCRIPTION;
-        //    item.Id = ITEM_ID;
-        //    item.Name = ITEM_NAME;
-        //    item.Price = ITEM_PRICE;
-
-        //    orderline.Item = item;
-        //    orderline.ItemId = item.Id;
-        //    orderline.Number = 1;
-
-        //    orderlines.Add(orderline);
-
-        //    return orderlines;
-        //}
+            return source;
+        }
     }
 }

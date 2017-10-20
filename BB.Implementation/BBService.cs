@@ -13,10 +13,14 @@ namespace BB.Implementation
 {
     public class BBService : IManageOrders
     {
+
         public BBService()
         {
 
         }
+
+        internal IDatabaseRecord MockCustomer { get; set; }
+        internal ISecurityMethods MockSecurity { get; set; }
 
         //Error messages
         public const string REGISTER_CUSTOMER_SAVE_FAILED = "Could not save Customer Details.";
@@ -27,9 +31,28 @@ namespace BB.Implementation
             var ct = request.NewCustomer;
 
             //convert Customer to DLCustomer
-            DL_Customer CustomerToSave = DLMapping.MapCustomertoDLCustomer(ct);
+            DL_Customer CustomerToSave;
+            if (MockCustomer == null)
+            {
+                CustomerToSave = DLMapping.MapCustomertoDLCustomer(ct);
+            }
+            else
+            {
+                CustomerToSave = (DL_Customer)MockCustomer;
+            }
+
+            ISecurityMethods security;
+            if(MockSecurity == null)
+            {
+                security = new SecurityMethods();
+            }
+            else
+            {
+                security = MockSecurity;
+            }
 
             //Add additional fields 
+            var Security = new SecurityMethods();
             byte[] Salt = Security.GenerateNewSalt();
             CustomerToSave.Salt = Salt;
             CustomerToSave.PasswordNeedsChanging = false;
@@ -59,9 +82,10 @@ namespace BB.Implementation
             int NumberPrevPwdsToCheck = 0;
             if (!int.TryParse(PrevPwdsPolicy.value, out NumberPrevPwdsToCheck))
             {
-                throw new Exception(Security.PASSWORD_PREVIOUS_TO_CHECK_MISSING);
+                throw new Exception(SecurityMethods.PASSWORD_PREVIOUS_TO_CHECK_MISSING);
             }
 
+            var security = new SecurityMethods();
             PasswordCheckResponse PwCheckResponse;
             if (NumberPrevPwdsToCheck > 0)
             {
@@ -72,10 +96,10 @@ namespace BB.Implementation
                 var PreviousPasswords = new DL_PreviousPasswords();
                 PreviousPasswords.LoadRecords(PasswordQuery);
                 //PreviousPasswords = request.Customer.PreviousPasswords.OrderByDescending(e=>e. Where(e => e.ExipirationDate > DateTime.Now.AddMonths(-6)).ToList<PreviousPassword>();
-                PwCheckResponse = Security.CheckPassword(request.NewPassword, PreviousPasswords.Records.OrderByDescending(x=>x.CreationDate).Take(NumberPrevPwdsToCheck).ToList<DL_PreviousPassword>());
+                PwCheckResponse = security.CheckPassword(request.NewPassword, PreviousPasswords.Records.OrderByDescending(x=>x.CreationDate).Take(NumberPrevPwdsToCheck).ToList<DL_PreviousPassword>());
             }
 
-            PwCheckResponse = Security.CheckPassword(request.NewPassword, null);
+            PwCheckResponse = security.CheckPassword(request.NewPassword, null);
 
             if (!PwCheckResponse.PasswordOK)
             {

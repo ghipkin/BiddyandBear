@@ -10,7 +10,15 @@ using BB.Implementation.Config;
 
 namespace BB.Implementation
 {
-    public static class Security
+    public interface ISecurityMethods
+    {
+        byte[] GenerateNewSalt();
+        PasswordCheckResponse CheckPassword(string Password, List<DL_PreviousPassword> PreviousPasswords);
+        String GetPasswordHash(byte[] Salt, String Password);
+        string CreateHash(string password);
+    }
+
+    public class SecurityMethods : ISecurityMethods
     {
         const int SALT_LENGTH = 50;
 
@@ -33,12 +41,14 @@ namespace BB.Implementation
         internal const string PASSWORD_MIN_LOWERCASE_MISSING = "Could not obtain minimum number of lowercase characters from config.";
         internal const string PASSWORD_MIN_NUMBER_CHARS_MISSING = "Could not obtain minimum number of number characters from config.";
         internal const string PASSWORD_PREVIOUS_TO_CHECK_MISSING = "Could not obtain minimum number of previous passwords to check for repeats from config.";
+
         /// <summary>
         /// Generates a random 50 character string for use as a salt when checking passwords
         /// </summary>
         /// <returns></returns>
-        public static byte[] GenerateNewSalt()
+        public byte[] GenerateNewSalt()
         {
+
             RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
             var Salt = new byte[SALT_LENGTH];
             try
@@ -70,7 +80,7 @@ namespace BB.Implementation
             return Salt;
         }
 
-        public static PasswordCheckResponse CheckPassword(string Password, List<DL_PreviousPassword> PreviousPasswords)
+        public PasswordCheckResponse CheckPassword(string Password, List<DL_PreviousPassword> PreviousPasswords)
         {
             //Get the settings from the config file
             var SecuritySettings = (SecuritySection)ConfigurationManager.GetSection("passwordPolicies");
@@ -191,7 +201,7 @@ namespace BB.Implementation
             }
         }
 
-        public static String GetPasswordHash(byte[] Salt, String Password)
+        public String GetPasswordHash(byte[] Salt, String Password)
         {
 
             byte[] hash = PBKDF2(Password, Salt, PBKDF2_ITERATIONS, HASH_BYTES);
@@ -209,7 +219,7 @@ namespace BB.Implementation
 
         }
 
-        private static byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
+        private byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
         {
             using (Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt))
             {
@@ -218,7 +228,7 @@ namespace BB.Implementation
             }
         }
 
-        public static string CreateHash(string password)
+        public string CreateHash(string password)
         {
             // Generate a random salt
             byte[] salt = new byte[SALT_BYTES];

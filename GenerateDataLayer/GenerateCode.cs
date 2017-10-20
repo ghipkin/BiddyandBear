@@ -88,7 +88,7 @@ namespace GenerateDataLayer
                 sb.AppendLine("\t}");
                 sb.AppendLine("}");
 
-                string filename = Application.StartupPath + "\\..\\..\\..\\BBServices\\BBDataLayer.cs";
+                string filename = Application.StartupPath + "\\..\\..\\..\\BB.DataLayer\\BBDataLayer.cs";
                 if (File.Exists(filename))
                 {
                     File.Delete(filename);
@@ -502,7 +502,7 @@ namespace GenerateDataLayer
 
                 sb.AppendLine("\t}");
                 sb.AppendLine("}");
-                string filename = Application.StartupPath + "\\..\\..\\..\\BBServices.DataContracts\\GeneratedDataTypes.cs";
+                string filename = Application.StartupPath + "\\..\\..\\..\\BB.DataContracts\\GeneratedDataTypes.cs";
                 if (File.Exists(filename))
                 {
                     File.Delete(filename);
@@ -592,7 +592,7 @@ namespace GenerateDataLayer
                 sb.AppendLine("\t}");
                 sb.AppendLine("}");
 
-                string filename = Application.StartupPath + "\\..\\..\\..\\BBService.Implementation\\DLMapping.cs";
+                string filename = Application.StartupPath + "\\..\\..\\..\\BB.Implementation\\DLMapping.cs";
                 if (File.Exists(filename))
                 {
                     File.Delete(filename);

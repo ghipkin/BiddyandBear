@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using BB.Implementation;
 using BB.Implementation.Config;
 using BB.DataLayer;
-using BB.Contracts;
+using BB.DataContracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BB.Implementation.UnitTest
@@ -33,10 +33,13 @@ namespace BB.Implementation.UnitTest
 
         static SecuritySection SecuritySettings;
 
+        static SecurityMethods security;
+
         [ClassInitialize]
         public static void Initialise(TestContext testcontext)
         {
             SecuritySettings = (SecuritySection)ConfigurationManager.GetSection("passwordPolicies");
+            security = new SecurityMethods();
         }
 
         [TestInitialize]
@@ -58,7 +61,7 @@ namespace BB.Implementation.UnitTest
             PasswordLengthpolicy.value = "8";
 
             //ACT
-            var response = Security.CheckPassword(SHORT_PASSWORD, null);
+            var response = security.CheckPassword(SHORT_PASSWORD, null);
 
             //ASSERT
             Assert.AreEqual(false, response.PasswordOK);
@@ -72,7 +75,7 @@ namespace BB.Implementation.UnitTest
             PasswordLengthpolicy.value = "4";
 
             //ACT
-            var response = Security.CheckPassword(SHORT_PASSWORD, null);
+            var response = security.CheckPassword(SHORT_PASSWORD, null);
 
             //ASSERT
             Assert.IsTrue(response.PasswordOK);
@@ -90,7 +93,7 @@ namespace BB.Implementation.UnitTest
             bool ErrorOccurred = false;
             try
             {
-                var response = Security.CheckPassword(SHORT_PASSWORD, null);
+                var response = security.CheckPassword(SHORT_PASSWORD, null);
             }
             catch(Exception e)
             {
@@ -100,7 +103,7 @@ namespace BB.Implementation.UnitTest
 
             //ASSERT
             Assert.IsTrue(ErrorOccurred);
-            Assert.AreEqual(Security.PASSWORD_MIN_LENGTH_MISSING, ErrorMessage);
+            Assert.AreEqual(SecurityMethods.PASSWORD_MIN_LENGTH_MISSING, ErrorMessage);
         }
 
         [TestMethod]
@@ -111,7 +114,7 @@ namespace BB.Implementation.UnitTest
             PasswordSymbolpolicy.value = "2";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_NO_SYMBOL, null);
+            var response = security.CheckPassword(PASSWORD_NO_SYMBOL, null);
 
             //ASSERT
             Assert.AreEqual(false, response.PasswordOK);
@@ -126,7 +129,7 @@ namespace BB.Implementation.UnitTest
             PasswordSymbolpolicy.value = "0";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_NO_SYMBOL, null);
+            var response = security.CheckPassword(PASSWORD_NO_SYMBOL, null);
 
             //ASSERT
             Assert.IsTrue(response.PasswordOK);
@@ -145,7 +148,7 @@ namespace BB.Implementation.UnitTest
             bool ErrorOccurred = false;
             try
             {
-                var response = Security.CheckPassword(PASSWORD_NO_SYMBOL, null);
+                var response = security.CheckPassword(PASSWORD_NO_SYMBOL, null);
             }
             catch (Exception e)
             {
@@ -155,7 +158,7 @@ namespace BB.Implementation.UnitTest
 
             //ASSERT
             Assert.IsTrue(ErrorOccurred);
-            Assert.AreEqual(Security.PASSWORD_MIN_SYMBOLS_MISSING, ErrorMessage);
+            Assert.AreEqual(SecurityMethods.PASSWORD_MIN_SYMBOLS_MISSING, ErrorMessage);
         }
 
         [TestMethod]
@@ -166,7 +169,7 @@ namespace BB.Implementation.UnitTest
             PasswordNumberPolicy.value = "2";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_NO_NUMBER, null);
+            var response = security.CheckPassword(PASSWORD_NO_NUMBER, null);
 
             //ASSERT
             Assert.AreEqual(false, response.PasswordOK);
@@ -180,7 +183,7 @@ namespace BB.Implementation.UnitTest
             SecuritySettings.PasswordPolicies["NumberChars"].value = "0";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_NO_NUMBER, null);
+            var response = security.CheckPassword(PASSWORD_NO_NUMBER, null);
 
             //ASSERT
             Assert.IsTrue(response.PasswordOK);
@@ -198,7 +201,7 @@ namespace BB.Implementation.UnitTest
             bool ErrorOccurred = false;
             try
             {
-                var response = Security.CheckPassword(PASSWORD_NO_NUMBER, null);
+                var response = security.CheckPassword(PASSWORD_NO_NUMBER, null);
             }
             catch (Exception e)
             {
@@ -208,7 +211,7 @@ namespace BB.Implementation.UnitTest
 
             //ASSERT
             Assert.IsTrue(ErrorOccurred);
-            Assert.AreEqual(Security.PASSWORD_MIN_NUMBER_CHARS_MISSING, ErrorMessage);
+            Assert.AreEqual(SecurityMethods.PASSWORD_MIN_NUMBER_CHARS_MISSING, ErrorMessage);
         }
 
         [TestMethod]
@@ -219,7 +222,7 @@ namespace BB.Implementation.UnitTest
             PasswordLowerCasePolicy.value = "2";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_ALL_CAPS, null);
+            var response = security.CheckPassword(PASSWORD_ALL_CAPS, null);
 
             //ASSERT
             Assert.AreEqual(false, response.PasswordOK);
@@ -233,7 +236,7 @@ namespace BB.Implementation.UnitTest
             SecuritySettings.PasswordPolicies["LowercaseChars"].value = "0";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_ALL_CAPS, null);
+            var response = security.CheckPassword(PASSWORD_ALL_CAPS, null);
 
             //ASSERT
             Assert.IsTrue(response.PasswordOK);
@@ -251,7 +254,7 @@ namespace BB.Implementation.UnitTest
             bool ErrorOccurred = false;
             try
             {
-                var response = Security.CheckPassword(PASSWORD_ALL_CAPS, null);
+                var response = security.CheckPassword(PASSWORD_ALL_CAPS, null);
             }
             catch (Exception e)
             {
@@ -261,7 +264,7 @@ namespace BB.Implementation.UnitTest
 
             //ASSERT
             Assert.IsTrue(ErrorOccurred);
-            Assert.AreEqual(Security.PASSWORD_MIN_LOWERCASE_MISSING, ErrorMessage);
+            Assert.AreEqual(SecurityMethods.PASSWORD_MIN_LOWERCASE_MISSING, ErrorMessage);
         }
 
         [TestMethod]
@@ -272,7 +275,7 @@ namespace BB.Implementation.UnitTest
             PasswordUpperCasePolicy.value = "2";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_ALL_LOWER, null);
+            var response = security.CheckPassword(PASSWORD_ALL_LOWER, null);
 
             //ASSERT
             Assert.AreEqual(false, response.PasswordOK);
@@ -286,7 +289,7 @@ namespace BB.Implementation.UnitTest
             SecuritySettings.PasswordPolicies["UppercaseChars"].value = "0";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_ALL_LOWER, null);
+            var response = security.CheckPassword(PASSWORD_ALL_LOWER, null);
 
             //ASSERT
             Assert.IsTrue(response.PasswordOK);
@@ -304,7 +307,7 @@ namespace BB.Implementation.UnitTest
             bool ErrorOccurred = false;
             try
             {
-                var response = Security.CheckPassword(PASSWORD_ALL_LOWER, null);
+                var response = security.CheckPassword(PASSWORD_ALL_LOWER, null);
             }
             catch (Exception e)
             {
@@ -314,7 +317,7 @@ namespace BB.Implementation.UnitTest
 
             //ASSERT
             Assert.IsTrue(ErrorOccurred);
-            Assert.AreEqual(Security.PASSWORD_MIN_UPPERCASE_MISSING, ErrorMessage);
+            Assert.AreEqual(SecurityMethods.PASSWORD_MIN_UPPERCASE_MISSING, ErrorMessage);
         }
 
         [TestMethod]
@@ -325,7 +328,7 @@ namespace BB.Implementation.UnitTest
             PreviousPasswordPolicy.value = "6";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD6, GetPasswordList());
+            var response = security.CheckPassword(PASSWORD6, GetPasswordList());
 
             //ASSERT
             Assert.AreEqual(false, response.PasswordOK);
@@ -339,7 +342,7 @@ namespace BB.Implementation.UnitTest
             SecuritySettings.PasswordPolicies["PreviousPwdsToCheck"].value = "0";
 
             //ACT
-            var response = Security.CheckPassword(PASSWORD_ALL_LOWER, GetPasswordList());
+            var response = security.CheckPassword(PASSWORD_ALL_LOWER, GetPasswordList());
 
             //ASSERT
             Assert.IsTrue(response.PasswordOK);
@@ -357,7 +360,7 @@ namespace BB.Implementation.UnitTest
             bool ErrorOccurred = false;
             try
             {
-                var response = Security.CheckPassword(PASSWORD_ALL_LOWER, null);
+                var response = security.CheckPassword(PASSWORD_ALL_LOWER, null);
             }
             catch (Exception e)
             {
@@ -367,25 +370,29 @@ namespace BB.Implementation.UnitTest
 
             //ASSERT
             Assert.IsTrue(ErrorOccurred);
-            Assert.AreEqual(Security.PASSWORD_PREVIOUS_TO_CHECK_MISSING, ErrorMessage);
+            Assert.AreEqual(SecurityMethods.PASSWORD_PREVIOUS_TO_CHECK_MISSING, ErrorMessage);
         }
 
-        private List<PreviousPassword> GetPasswordList()
+        private List<DL_PreviousPassword> GetPasswordList()
         {
-
-            var Passwords = new List<PreviousPassword>();
-            Passwords.Add(new PreviousPassword { Salt = PREV_PWD_SALT,
-                PasswordHash = Security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD1) });
-            Passwords.Add(new PreviousPassword { Salt = PREV_PWD_SALT,
-                PasswordHash = Security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD2) });
-            Passwords.Add(new PreviousPassword { Salt = PREV_PWD_SALT,
-                PasswordHash = Security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD3) });
-            Passwords.Add(new PreviousPassword { Salt = PREV_PWD_SALT,
-                PasswordHash = Security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD4) });
-            Passwords.Add(new PreviousPassword { Salt = PREV_PWD_SALT,
-                PasswordHash = Security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD5) });
-            Passwords.Add(new PreviousPassword { Salt = PREV_PWD_SALT,
-                PasswordHash = Security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD6) });
+            var Passwords = new List<DL_PreviousPassword>();
+            Passwords.Add(new DL_PreviousPassword { Salt = PREV_PWD_SALT,
+                PasswordHash = security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD1) });
+            Passwords.Add(new DL_PreviousPassword
+            { Salt = PREV_PWD_SALT,
+                PasswordHash = security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD2) });
+            Passwords.Add(new DL_PreviousPassword
+            { Salt = PREV_PWD_SALT,
+                PasswordHash = security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD3) });
+            Passwords.Add(new DL_PreviousPassword
+            { Salt = PREV_PWD_SALT,
+                PasswordHash = security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD4) });
+            Passwords.Add(new DL_PreviousPassword
+            { Salt = PREV_PWD_SALT,
+                PasswordHash = security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD5) });
+            Passwords.Add(new DL_PreviousPassword
+            { Salt = PREV_PWD_SALT,
+                PasswordHash = security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD6) });
 
             return Passwords;
         }

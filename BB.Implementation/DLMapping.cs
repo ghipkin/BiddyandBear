@@ -43,7 +43,7 @@ namespace BB.Implementation
 		public static DL_Image MapImagetoDLImage(Image image)
 		{
 			var result = new DL_Image();
-			result.Image = image.Image;
+			result.ImageContent = image.ImageContent;
 			result.ImageDescription = image.ImageDescription;
 
 			return result;
