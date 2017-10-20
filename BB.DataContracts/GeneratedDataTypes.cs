@@ -54,7 +54,7 @@ namespace BB.DataContracts
 	public class Image
 	{
 		[DataMember]
-		public byte[] Image { get; set; }
+		public byte[] ImageContent { get; set; }
 		[DataMember]
 		public string ImageDescription { get; set; }
 	}

@@ -5,13 +5,13 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BBDb", "BiddyandBearDb\BBDb.sqlproj", "{2DBC083C-A72A-4A4D-8A79-D85760033204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.DataLayer", "BBServices\BB.DataLayer.csproj", "{8151CA9D-7689-45B2-BACD-6DB54EA923B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.DataLayer", "BB.DataLayer\BB.DataLayer.csproj", "{8151CA9D-7689-45B2-BACD-6DB54EA923B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.DataContracts", "BBServices.DataContracts\BB.DataContracts.csproj", "{F56A18E5-1938-45E7-9794-4C4F29C42F33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.DataContracts", "BB.DataContracts\BB.DataContracts.csproj", "{F56A18E5-1938-45E7-9794-4C4F29C42F33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.Implementation", "BBService.Implementation\BB.Implementation.csproj", "{5BBABE8E-C5B0-4188-85E2-50872C8544C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.Implementation", "BB.Implementation\BB.Implementation.csproj", "{5BBABE8E-C5B0-4188-85E2-50872C8544C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.Implementation.UnitTest", "BBService.UnitTest\BB.Implementation.UnitTest.csproj", "{E4D99BF8-FB71-43A7-8AF8-3F0A9128CD45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.Implementation.UnitTest", "BB.Implementation.UnitTest\BB.Implementation.UnitTest.csproj", "{E4D99BF8-FB71-43A7-8AF8-3F0A9128CD45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BB.Host", "BB.Host\BB.Host.csproj", "{15ADE196-A230-43DD-99FD-3159A966279E}"
 EndProject

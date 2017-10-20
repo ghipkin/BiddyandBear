@@ -18,7 +18,7 @@ namespace BB.DataLayer
 		{
 			List<DL_BasketItem> result;
 			var SQL = "Select CustomerId, ItemId, Number"
-			+ "FROM BasketItem"
+			+ " FROM BasketItem"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -103,7 +103,7 @@ namespace BB.DataLayer
 		{
 			List<DL_Customer> result;
 			var SQL = "Select Id, Title, FirstName, LastName, AddressLine1, AddressLine2, AddressLine3, AddressLine4, PostalCode, Country, HomePhoneNo, MobilePhoneNo, EmailAddress, UserName, Salt, PasswordHash, PasswordNeedsChanging"
-			+ "FROM Customer"
+			+ " FROM Customer"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -149,7 +149,7 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Customer : IDatabaseRecord
 	{
-		public decimal Id { get; private set; }
+		public decimal Id { get; internal set; }
 		public string Title { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -240,8 +240,8 @@ namespace BB.DataLayer
 		public void LoadRecords(Dictionary<String, Object> WhereParams)
 		{
 			List<DL_Image> result;
-			var SQL = "Select Id, Image, ImageDescription"
-			+ "FROM Image"
+			var SQL = "Select Id, ImageContent, ImageDescription"
+			+ " FROM Image"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -260,8 +260,8 @@ namespace BB.DataLayer
 				while(dr.Read())
 				{
 					var NewRow = new DL_Image();
-					NewRow.Id = dr.GetFieldValue<int>(dr.GetOrdinal("Id"));
-					NewRow.Image = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Image"));
+					NewRow.Id = dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
+					NewRow.ImageContent = dr.GetFieldValue<byte[]>(dr.GetOrdinal("ImageContent"));
 					NewRow.ImageDescription = dr.GetFieldValue<string>(dr.GetOrdinal("ImageDescription"));
 					result.Add(NewRow);
 				}
@@ -273,16 +273,16 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Image : IDatabaseRecord
 	{
-		public int Id { get; private set; }
-		public byte[] Image { get; set; }
+		public decimal Id { get; internal set; }
+		public byte[] ImageContent { get; set; }
 		public string ImageDescription { get; set; }
 
 		public void Save()
 		{
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["BBcn"].ConnectionString))
 			{
-				 String SQL = "INSERT INTO Image (Id, Image, ImageDescription)"
-					+ " VALUES (Id, Image, ImageDescription);";
+				 String SQL = "INSERT INTO Image (Id, ImageContent, ImageDescription)"
+					+ " VALUES (Id, ImageContent, ImageDescription);";
 				cn.Open();
 				using (SqlCommand cmd = new SqlCommand(SQL, cn))
 				{
@@ -308,10 +308,10 @@ namespace BB.DataLayer
 
 		public void Load(Dictionary<string, object> parms)
 		{
-			int Idvalue = (int)parms.Where(x => x.Key == "Id").FirstOrDefault().Value;
+			decimal Idvalue = (decimal)parms.Where(x => x.Key == "Id").FirstOrDefault().Value;
 			using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["DEV"].ConnectionString))
 			{
-				 String SQL = "Select Id, Image, ImageDescription"
+				 String SQL = "Select Id, ImageContent, ImageDescription"
 					+ "FROM Image"
 					+ "WHERE Id = Idvalue";
 				cn.Open();
@@ -320,7 +320,7 @@ namespace BB.DataLayer
 				{
 					if (dr.HasRows)
 					{
-						Image = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Image"));
+						ImageContent = dr.GetFieldValue<byte[]>(dr.GetOrdinal("ImageContent"));
 						ImageDescription = dr.GetFieldValue<string>(dr.GetOrdinal("ImageDescription"));
 					}
 				}
@@ -337,7 +337,7 @@ namespace BB.DataLayer
 		{
 			List<DL_Item> result;
 			var SQL = "Select Id, Name, Description, Active, Price, Thumbnail, Timestamp"
-			+ "FROM Item"
+			+ " FROM Item"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -373,7 +373,7 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Item : IDatabaseRecord
 	{
-		public decimal Id { get; private set; }
+		public decimal Id { get; internal set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public bool Active { get; set; }
@@ -445,7 +445,7 @@ namespace BB.DataLayer
 		{
 			List<DL_ItemImages> result;
 			var SQL = "Select ItemId, ImageId"
-			+ "FROM ItemImages"
+			+ " FROM ItemImages"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -527,7 +527,7 @@ namespace BB.DataLayer
 		{
 			List<DL_Order> result;
 			var SQL = "Select Id, CustomerId, DateOrderPlaced, DateOrderDispatched, SourceId, Cancelled"
-			+ "FROM Order"
+			+ " FROM Order"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -562,7 +562,7 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Order : IDatabaseRecord
 	{
-		public decimal Id { get; private set; }
+		public decimal Id { get; internal set; }
 		public decimal CustomerId { get; set; }
 		public DateTime DateOrderPlaced { get; set; }
 		public DateTime DateOrderDispatched { get; set; }
@@ -632,7 +632,7 @@ namespace BB.DataLayer
 		{
 			List<DL_OrderLine> result;
 			var SQL = "Select OrderId, ItemId, Quantity"
-			+ "FROM OrderLine"
+			+ " FROM OrderLine"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -717,7 +717,7 @@ namespace BB.DataLayer
 		{
 			List<DL_PreviousPassword> result;
 			var SQL = "Select CustomerId, CreationDate, Salt, PasswordHash"
-			+ "FROM PreviousPassword"
+			+ " FROM PreviousPassword"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -805,7 +805,7 @@ namespace BB.DataLayer
 		{
 			List<DL_Source> result;
 			var SQL = "Select Id, Description, Name"
-			+ "FROM Source"
+			+ " FROM Source"
 			+ " WHERE ";
 			var sbSQL = new StringBuilder();
 			sbSQL.Append(SQL);
@@ -837,7 +837,7 @@ namespace BB.DataLayer
 	[ExcludeFromCodeCoverage]
 	public class DL_Source : IDatabaseRecord
 	{
-		public decimal Id { get; private set; }
+		public decimal Id { get; internal set; }
 		public string Description { get; set; }
 		public string Name { get; set; }
 

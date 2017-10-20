@@ -75,15 +75,15 @@
     <Compile Include="SecurityBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BBServices.DataContracts\BB.DataContracts.csproj">
+    <ProjectReference Include="..\BB.DataContracts\BB.DataContracts.csproj">
       <Project>{f56a18e5-1938-45e7-9794-4c4f29c42f33}</Project>
       <Name>BB.DataContracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BBServices\BB.DataLayer.csproj">
+    <ProjectReference Include="..\BB.DataLayer\BB.DataLayer.csproj">
       <Project>{8151ca9d-7689-45b2-bacd-6db54ea923b4}</Project>
       <Name>BB.DataLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BBService.Implementation\BB.Implementation.csproj">
+    <ProjectReference Include="..\BB.Implementation\BB.Implementation.csproj">
       <Project>{5bbabe8e-c5b0-4188-85e2-50872c8544c9}</Project>
       <Name>BB.Implementation</Name>
     </ProjectReference>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BB.Implementation;
 using BB.DataLayer;
-using BB.Contracts;
+using BB.DataContracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BB.UnitTest

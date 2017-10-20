@@ -67,9 +67,13 @@ namespace GenerateDataLayer
                     sb.Append(" ");
                     sb.Append(Field.FieldName);
                     sb.Append(" { get;");
-                    if (Field.SQLDataType == "Timestamp" || Field.IsIdentity)
+                    if (Field.SQLDataType == "Timestamp") //should not be able to change timestamp fields
                     {
                         sb.Append(" private");
+                    }
+                    else if(Field.IsIdentity)//should only be able to set identity fields insie the Datalayer dll
+                    {
+                        sb.Append(" internal");
                     }
                     sb.Append(" set; }");
                     sb.AppendLine();
