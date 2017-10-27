@@ -2,7 +2,8 @@
 (
 	[Id] NUMERIC IDENTITY(0,1) NOT NULL PRIMARY KEY, 
     [Description] NVARCHAR(50) NULL, 
-    [Name] NVARCHAR(10) NOT NULL
+    [Name] NVARCHAR(10) NOT NULL, 
+    [Timestamp] TIMESTAMP NOT NULL
 )
 
 GO

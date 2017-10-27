@@ -18,20 +18,3 @@ EXEC sp_addextendedproperty @name = N'Visibility',
     @level2type = N'COLUMN',
     @level2name = N'OrderId'
 GO
-EXEC sp_addextendedproperty @name = N'Visibility',
-    @value = N'Internal',
-    @level0type = N'SCHEMA',
-    @level0name = N'dbo',
-    @level1type = N'TABLE',
-    @level1name = N'OrderLine',
-    @level2type = N'COLUMN',
-    @level2name = N'ItemId'
-GO
-EXEC sp_addextendedproperty @name = N'Visibility',
-    @value = N'Internal',
-    @level0type = N'SCHEMA',
-    @level0name = N'dbo',
-    @level1type = N'TABLE',
-    @level1name = N'OrderLine',
-    @level2type = N'COLUMN',
-    @level2name = N'Quantity'

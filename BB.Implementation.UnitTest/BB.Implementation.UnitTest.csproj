@@ -71,14 +71,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Common.cs" />
     <Compile Include="RegisterUserBehaviour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityBehaviour.cs" />
+    <Compile Include="PlaceOrderBehaviour.cs" />
+    <Compile Include="RetrieveDataItemBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BB.DataContracts\BB.DataContracts.csproj">
       <Project>{f56a18e5-1938-45e7-9794-4c4f29c42f33}</Project>
       <Name>BB.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BB.DataLayer.Abstract\BB.DataLayer.Abstract.csproj">
+      <Project>{4cbf1edf-57b0-4ff1-bae5-f6a1ba7eebf9}</Project>
+      <Name>BB.DataLayer.Abstract</Name>
     </ProjectReference>
     <ProjectReference Include="..\BB.DataLayer\BB.DataLayer.csproj">
       <Project>{8151ca9d-7689-45b2-bacd-6db54ea923b4}</Project>
@@ -87,6 +94,10 @@
     <ProjectReference Include="..\BB.Implementation\BB.Implementation.csproj">
       <Project>{5bbabe8e-c5b0-4188-85e2-50872c8544c9}</Project>
       <Name>BB.Implementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BB.Mocks\BB.Mocks.csproj">
+      <Project>{79bd68e9-8f28-4b70-adab-7380b994f965}</Project>
+      <Name>BB.Mocks</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

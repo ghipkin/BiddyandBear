@@ -11,5 +11,13 @@ namespace BB.DataContracts
 
         [OperationBehavior]
         ChangePasswordResponse ChangePassword(ChangePasswordRequest request);
+
+        [OperationBehavior]
+        PlaceOrderResponse PlaceOrder(PlaceOrderRequest request);
+
+        [OperationBehavior]
+        RetrieveItemCategoriesResponse RetrieveItemCategories(RetrieveItemCategoriesRequest request);
+
+        RetrieveItemsResponse RetrieveItems(RetrieveItemsRequest request);
     }
 }

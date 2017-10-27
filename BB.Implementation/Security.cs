@@ -13,7 +13,7 @@ namespace BB.Implementation
     public interface ISecurityMethods
     {
         byte[] GenerateNewSalt();
-        PasswordCheckResponse CheckPassword(string Password, List<DL_PreviousPassword> PreviousPasswords);
+        PasswordCheckResponse CheckPassword(string Password, IEnumerable<ADL_PreviousPassword> PreviousPasswords);
         String GetPasswordHash(byte[] Salt, String Password);
         string CreateHash(string password);
     }
@@ -80,7 +80,7 @@ namespace BB.Implementation
             return Salt;
         }
 
-        public PasswordCheckResponse CheckPassword(string Password, List<DL_PreviousPassword> PreviousPasswords)
+        public PasswordCheckResponse CheckPassword(string Password, IEnumerable<ADL_PreviousPassword> PreviousPasswords)
         {
             //Get the settings from the config file
             var SecuritySettings = (SecuritySection)ConfigurationManager.GetSection("passwordPolicies");

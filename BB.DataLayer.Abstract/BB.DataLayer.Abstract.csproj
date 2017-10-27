@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5BBABE8E-C5B0-4188-85E2-50872C8544C9}</ProjectGuid>
+    <ProjectGuid>{4CBF1EDF-57B0-4FF1-BAE5-F6A1BA7EEBF9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BB.Implementation</RootNamespace>
-    <AssemblyName>BB.Implementation</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <RootNamespace>BB.DataLayer.Abstract</RootNamespace>
+    <AssemblyName>BB.DataLayer.Abstract</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,20 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,29 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BBService.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="DLMapping.cs" />
-    <Compile Include="Security.cs" />
+    <Compile Include="Connection.cs" />
+    <Compile Include="DatabaseRecord.cs" />
+    <Compile Include="DatabaseRecords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BB.DataContracts\BB.DataContracts.csproj">
-      <Project>{f56a18e5-1938-45e7-9794-4c4f29c42f33}</Project>
-      <Name>BB.DataContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BB.DataLayer.Abstract\BB.DataLayer.Abstract.csproj">
-      <Project>{4cbf1edf-57b0-4ff1-bae5-f6a1ba7eebf9}</Project>
-      <Name>BB.DataLayer.Abstract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BB.DataLayer\BB.DataLayer.csproj">
-      <Project>{8151ca9d-7689-45b2-bacd-6db54ea923b4}</Project>
-      <Name>BB.DataLayer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

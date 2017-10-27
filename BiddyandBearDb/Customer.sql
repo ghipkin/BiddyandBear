@@ -16,7 +16,8 @@
     [UserName] NVARCHAR(20) NOT NULL, 
 	[Salt] VARBINARY(50) NOT NULL, 
     [PasswordHash] NCHAR(50) NOT NULL, 
-    [PasswordNeedsChanging] BIT NOT NULL 
+    [PasswordNeedsChanging] BIT NOT NULL, 
+    [Timestamp] TIMESTAMP NOT NULL 
 )
 
 GO

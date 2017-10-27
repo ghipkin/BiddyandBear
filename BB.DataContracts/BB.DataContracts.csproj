@@ -47,15 +47,21 @@
     <Compile Include="IManageOrders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\PlaceOrderRequest.cs" />
-    <Compile Include="Requests\RegisterCustomerRequest.cs" />
+    <Compile Include="Requests\SecurityRequests.cs" />
+    <Compile Include="Requests\RetrieveItemDataRequests.cs" />
     <Compile Include="Responses\PlaceOrderResponse.cs" />
-    <Compile Include="Responses\RegisterUserResponse.cs" />
+    <Compile Include="Responses\RetrieveItemDataResponses.cs" />
+    <Compile Include="Responses\SecurityResponses.cs" />
     <Compile Include="Responses\ServiceResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BB.DataLayer\BB.DataLayer.csproj">
       <Project>{8151ca9d-7689-45b2-bacd-6db54ea923b4}</Project>
       <Name>BB.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BB.Mocks\BB.Mocks.csproj">
+      <Project>{79bd68e9-8f28-4b70-adab-7380b994f965}</Project>
+      <Name>BB.Mocks</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

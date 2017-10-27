@@ -65,10 +65,12 @@
     <Build Include="Source.sql" />
     <Build Include="OrderLine.sql" />
     <Build Include="BasketItems.sql" />
-    <Build Include="CurrentItems.sql" />
+    <Build Include="CurrentItem.sql" />
     <Build Include="PreviousPassword.sql" />
     <Build Include="ItemImages.sql" />
     <Build Include="Image.sql" />
+    <Build Include="ItemCategory.sql" />
+    <Build Include="CurrentItemCategory.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="BiddyandBearDb.refactorlog" />

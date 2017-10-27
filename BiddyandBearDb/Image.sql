@@ -2,7 +2,8 @@
 (
 	[Id] NUMERIC NOT NULL PRIMARY KEY IDENTITY, 
     [ImageContent] IMAGE NOT NULL, 
-    [ImageDescription] NCHAR(10) NULL
+    [ImageDescription] NCHAR(10) NULL, 
+    [Timestamp] TIMESTAMP NULL
 )
 
 GO

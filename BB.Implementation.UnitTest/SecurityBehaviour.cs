@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BB.Implementation.UnitTest
 {
+
     [TestClass]
     public class SecurityBehaviour
     {
@@ -373,9 +374,9 @@ namespace BB.Implementation.UnitTest
             Assert.AreEqual(SecurityMethods.PASSWORD_PREVIOUS_TO_CHECK_MISSING, ErrorMessage);
         }
 
-        private List<DL_PreviousPassword> GetPasswordList()
+        private List<ADL_PreviousPassword> GetPasswordList()
         {
-            var Passwords = new List<DL_PreviousPassword>();
+            var Passwords = new List<ADL_PreviousPassword>();
             Passwords.Add(new DL_PreviousPassword { Salt = PREV_PWD_SALT,
                 PasswordHash = security.GetPasswordHash(Encoding.ASCII.GetBytes(PREV_PWD_SALT), PASSWORD1) });
             Passwords.Add(new DL_PreviousPassword
