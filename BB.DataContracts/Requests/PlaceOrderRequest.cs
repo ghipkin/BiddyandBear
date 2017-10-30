@@ -1,9 +1,9 @@
 ﻿using System.Runtime.Serialization;
 using System.Collections.Generic;
-using BB.DataLayer;
 
 namespace BB.DataContracts
 {
+    [DataContract]
     public class PlaceOrderRequest
     {
         public Order NewOrder { get; set; }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{79BD68E9-8F28-4B70-ADAB-7380B994F965}</ProjectGuid>
+    <ProjectGuid>{4453D209-B215-48D7-83CC-A2917E3680C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BB.Mocks</RootNamespace>
-    <AssemblyName>BB.Mocks</AssemblyName>
+    <RootNamespace>BB.ServiceContracts</RootNamespace>
+    <AssemblyName>BB.ServiceContracts</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,8 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BB.DataContracts">
+      <HintPath>..\BB.DataContracts\obj\Debug\BB.DataContracts.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,14 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MockDatabase.cs" />
+    <Compile Include="IManageOrders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BB.DataLayer.Abstract\BB.DataLayer.Abstract.csproj">
-      <Project>{4cbf1edf-57b0-4ff1-bae5-f6a1ba7eebf9}</Project>
-      <Name>BB.DataLayer.Abstract</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

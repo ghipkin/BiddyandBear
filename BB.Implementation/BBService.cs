@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Transactions;
 using BB.Implementation;
 using BB.DataContracts;
+using BB.ServiceContracts;
 using BB.DataLayer;
 using BB.DataLayer.Abstract;
 using BB.Implementation.Config;

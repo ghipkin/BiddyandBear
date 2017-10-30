@@ -72,6 +72,10 @@
       <Project>{8151ca9d-7689-45b2-bacd-6db54ea923b4}</Project>
       <Name>BB.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BB.ServiceContracts\BB.ServiceContracts.csproj">
+      <Project>{4453d209-b215-48d7-83cc-a2917e3680c5}</Project>
+      <Name>BB.ServiceContracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

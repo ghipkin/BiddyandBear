@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace BB.DataContracts
 {
+    [DataContract]
     public class RetrieveItemCategoriesRequest
     {
     }
-
+    [DataContract]
     public class RetrieveItemsRequest
     {
         public long CategoryId { get; set; }
