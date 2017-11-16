@@ -31,7 +31,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select CustomerId, ItemId, Number"
 			+ " FROM BasketItem";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -51,15 +51,15 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_BasketItem>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_BasketItem();
-					NewRow.CustomerId = dr.GetFieldValue<long>(dr.GetOrdinal("CustomerId"));
-					NewRow.ItemId = dr.GetFieldValue<long>(dr.GetOrdinal("ItemId"));
+					NewRow.CustomerId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("CustomerId"));
+					NewRow.ItemId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("ItemId"));
 					NewRow.Number = dr.GetFieldValue<int>(dr.GetOrdinal("Number"));
 					result.Add(NewRow);
 				}
@@ -264,7 +264,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select Id, Name, Description, CategoryId, Price, Thumbnail"
 			+ " FROM CurrentItem";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -284,17 +284,17 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_CurrentItem>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_CurrentItem();
-					NewRow.Id = dr.GetFieldValue<long>(dr.GetOrdinal("Id"));
+					NewRow.Id = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
 					NewRow.Name = dr.GetFieldValue<string>(dr.GetOrdinal("Name"));
 					NewRow.Description = dr.GetFieldValue<string>(dr.GetOrdinal("Description"));
-					NewRow.CategoryId = dr.GetFieldValue<long>(dr.GetOrdinal("CategoryId"));
+					NewRow.CategoryId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("CategoryId"));
 					NewRow.Price = dr.GetFieldValue<decimal>(dr.GetOrdinal("Price"));
 					NewRow.Thumbnail = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Thumbnail"));
 					result.Add(NewRow);
@@ -442,7 +442,7 @@ namespace BB.DataLayer
 	{
 		public const string ERR_SAVE_FAILED = "Could not save CurrentItem record.";
 		public bool fail { get; set; }
-		public const long DEFAULT_CURRENTITEM_ID = 362872286;
+		public const long DEFAULT_CURRENTITEM_ID = 595168639;
 		public override string GetInsertSQL()
 		{
 			return String.Empty;
@@ -487,7 +487,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select Id, Name, Description, VAT"
 			+ " FROM CurrentItemCategory";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -507,14 +507,14 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_CurrentItemCategory>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_CurrentItemCategory();
-					NewRow.Id = dr.GetFieldValue<long>(dr.GetOrdinal("Id"));
+					NewRow.Id = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
 					NewRow.Name = dr.GetFieldValue<string>(dr.GetOrdinal("Name"));
 					NewRow.Description = dr.GetFieldValue<string>(dr.GetOrdinal("Description"));
 					NewRow.VAT = dr.GetFieldValue<bool>(dr.GetOrdinal("VAT"));
@@ -659,7 +659,7 @@ namespace BB.DataLayer
 	{
 		public const string ERR_SAVE_FAILED = "Could not save CurrentItemCategory record.";
 		public bool fail { get; set; }
-		public const long DEFAULT_CURRENTITEMCATEGORY_ID = 362872286;
+		public const long DEFAULT_CURRENTITEMCATEGORY_ID = 595168639;
 		public override string GetInsertSQL()
 		{
 			return String.Empty;
@@ -704,7 +704,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select Id, Title, FirstName, LastName, AddressLine1, AddressLine2, AddressLine3, AddressLine4, PostalCode, Country, HomePhoneNo, MobilePhoneNo, EmailAddress, UserName, Salt, PasswordHash, PasswordNeedsChanging, Timestamp"
 			+ " FROM Customer";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -724,14 +724,14 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_Customer>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_Customer();
-					NewRow.Id = dr.GetFieldValue<long>(dr.GetOrdinal("Id"));
+					NewRow.Id = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
 					NewRow.Title = dr.GetFieldValue<string>(dr.GetOrdinal("Title"));
 					NewRow.FirstName = dr.GetFieldValue<string>(dr.GetOrdinal("FirstName"));
 					NewRow.LastName = dr.GetFieldValue<string>(dr.GetOrdinal("LastName"));
@@ -950,7 +950,7 @@ namespace BB.DataLayer
 	{
 		public const string ERR_SAVE_FAILED = "Could not save Customer record.";
 		public bool fail { get; set; }
-		public const long DEFAULT_CUSTOMER_ID = 362872286;
+		public const long DEFAULT_CUSTOMER_ID = 595168639;
 		public override string GetInsertSQL()
 		{
 			return String.Empty;
@@ -995,7 +995,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select Id, ImageContent, ImageDescription, Timestamp"
 			+ " FROM Image";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -1015,14 +1015,14 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_Image>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_Image();
-					NewRow.Id = dr.GetFieldValue<long>(dr.GetOrdinal("Id"));
+					NewRow.Id = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
 					NewRow.ImageContent = dr.GetFieldValue<byte[]>(dr.GetOrdinal("ImageContent"));
 					NewRow.ImageDescription = dr.GetFieldValue<string>(dr.GetOrdinal("ImageDescription"));
 					NewRow.Timestamp = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Timestamp"));
@@ -1199,7 +1199,7 @@ namespace BB.DataLayer
 	{
 		public const string ERR_SAVE_FAILED = "Could not save Image record.";
 		public bool fail { get; set; }
-		public const long DEFAULT_IMAGE_ID = 362872286;
+		public const long DEFAULT_IMAGE_ID = 595168639;
 		public override string GetInsertSQL()
 		{
 			return String.Empty;
@@ -1244,7 +1244,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select Id, Name, Description, CategoryId, Active, Price, Thumbnail, Timestamp"
 			+ " FROM Item";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -1264,17 +1264,17 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_Item>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_Item();
-					NewRow.Id = dr.GetFieldValue<long>(dr.GetOrdinal("Id"));
+					NewRow.Id = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
 					NewRow.Name = dr.GetFieldValue<string>(dr.GetOrdinal("Name"));
 					NewRow.Description = dr.GetFieldValue<string>(dr.GetOrdinal("Description"));
-					NewRow.CategoryId = dr.GetFieldValue<long>(dr.GetOrdinal("CategoryId"));
+					NewRow.CategoryId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("CategoryId"));
 					NewRow.Active = dr.GetFieldValue<bool>(dr.GetOrdinal("Active"));
 					NewRow.Price = dr.GetFieldValue<decimal>(dr.GetOrdinal("Price"));
 					NewRow.Thumbnail = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Thumbnail"));
@@ -1460,7 +1460,7 @@ namespace BB.DataLayer
 	{
 		public const string ERR_SAVE_FAILED = "Could not save Item record.";
 		public bool fail { get; set; }
-		public const long DEFAULT_ITEM_ID = 362872286;
+		public const long DEFAULT_ITEM_ID = 595168639;
 		public override string GetInsertSQL()
 		{
 			return String.Empty;
@@ -1505,7 +1505,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select Id, Name, Description, Active, VAT, Timestamp"
 			+ " FROM ItemCategory";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -1525,14 +1525,14 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_ItemCategory>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_ItemCategory();
-					NewRow.Id = dr.GetFieldValue<long>(dr.GetOrdinal("Id"));
+					NewRow.Id = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
 					NewRow.Name = dr.GetFieldValue<string>(dr.GetOrdinal("Name"));
 					NewRow.Description = dr.GetFieldValue<string>(dr.GetOrdinal("Description"));
 					NewRow.Active = dr.GetFieldValue<bool>(dr.GetOrdinal("Active"));
@@ -1715,7 +1715,7 @@ namespace BB.DataLayer
 	{
 		public const string ERR_SAVE_FAILED = "Could not save ItemCategory record.";
 		public bool fail { get; set; }
-		public const long DEFAULT_ITEMCATEGORY_ID = 362872286;
+		public const long DEFAULT_ITEMCATEGORY_ID = 595168639;
 		public override string GetInsertSQL()
 		{
 			return String.Empty;
@@ -1760,7 +1760,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select ItemId, ImageId"
 			+ " FROM ItemImages";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -1780,15 +1780,15 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_ItemImages>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_ItemImages();
-					NewRow.ItemId = dr.GetFieldValue<long>(dr.GetOrdinal("ItemId"));
-					NewRow.ImageId = dr.GetFieldValue<long>(dr.GetOrdinal("ImageId"));
+					NewRow.ItemId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("ItemId"));
+					NewRow.ImageId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("ImageId"));
 					result.Add(NewRow);
 				}
 			}
@@ -1990,7 +1990,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select Id, CustomerId, DateOrderPlaced, DateOrderDispatched, SourceId, Cancelled"
 			+ " FROM Order";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -2010,18 +2010,18 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_Order>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_Order();
-					NewRow.Id = dr.GetFieldValue<long>(dr.GetOrdinal("Id"));
-					NewRow.CustomerId = dr.GetFieldValue<long>(dr.GetOrdinal("CustomerId"));
+					NewRow.Id = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
+					NewRow.CustomerId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("CustomerId"));
 					NewRow.DateOrderPlaced = dr.GetFieldValue<DateTime>(dr.GetOrdinal("DateOrderPlaced"));
 					NewRow.DateOrderDispatched = dr.GetFieldValue<DateTime>(dr.GetOrdinal("DateOrderDispatched"));
-					NewRow.SourceId = dr.GetFieldValue<long>(dr.GetOrdinal("SourceId"));
+					NewRow.SourceId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("SourceId"));
 					NewRow.Cancelled = dr.GetFieldValue<bool>(dr.GetOrdinal("Cancelled"));
 					result.Add(NewRow);
 				}
@@ -2200,7 +2200,7 @@ namespace BB.DataLayer
 	{
 		public const string ERR_SAVE_FAILED = "Could not save Order record.";
 		public bool fail { get; set; }
-		public const long DEFAULT_ORDER_ID = 362872286;
+		public const long DEFAULT_ORDER_ID = 595168639;
 		public override string GetInsertSQL()
 		{
 			return String.Empty;
@@ -2245,7 +2245,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select OrderId, ItemId, Quantity"
 			+ " FROM OrderLine";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -2265,15 +2265,15 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_OrderLine>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_OrderLine();
-					NewRow.OrderId = dr.GetFieldValue<long>(dr.GetOrdinal("OrderId"));
-					NewRow.ItemId = dr.GetFieldValue<long>(dr.GetOrdinal("ItemId"));
+					NewRow.OrderId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("OrderId"));
+					NewRow.ItemId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("ItemId"));
 					NewRow.Quantity = dr.GetFieldValue<int>(dr.GetOrdinal("Quantity"));
 					result.Add(NewRow);
 				}
@@ -2478,7 +2478,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select CustomerId, CreationDate, Salt, PasswordHash"
 			+ " FROM PreviousPassword";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -2498,14 +2498,14 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_PreviousPassword>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_PreviousPassword();
-					NewRow.CustomerId = dr.GetFieldValue<long>(dr.GetOrdinal("CustomerId"));
+					NewRow.CustomerId = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("CustomerId"));
 					NewRow.CreationDate = dr.GetFieldValue<DateTime>(dr.GetOrdinal("CreationDate"));
 					NewRow.Salt = dr.GetFieldValue<string>(dr.GetOrdinal("Salt"));
 					NewRow.PasswordHash = dr.GetFieldValue<string>(dr.GetOrdinal("PasswordHash"));
@@ -2714,7 +2714,7 @@ namespace BB.DataLayer
 			string SQL;
 			var FirstSQL = "Select Id, Description, Name, Timestamp"
 			+ " FROM Source";
-			if(WhereParams != null || WhereParams.Count == 0)
+			if(WhereParams != null && WhereParams.Count > 0)
 			{
 				var sbSQL = new StringBuilder();
 				sbSQL.Append(FirstSQL);
@@ -2734,14 +2734,14 @@ namespace BB.DataLayer
 				SQL = FirstSQL;
 			}
 			using (SqlConnection cn = GetSQLConnection())
-			using (SqlCommand cmd = new SqlCommand(SQL))
+			using (SqlCommand cmd = new SqlCommand(SQL, cn))
 			using (SqlDataReader dr = cmd.ExecuteReader())
 			{
 				result = new List<ADL_Source>();
 				while(dr.Read())
 				{
 					var NewRow = new DL_Source();
-					NewRow.Id = dr.GetFieldValue<long>(dr.GetOrdinal("Id"));
+					NewRow.Id = (long)dr.GetFieldValue<decimal>(dr.GetOrdinal("Id"));
 					NewRow.Description = dr.GetFieldValue<string>(dr.GetOrdinal("Description"));
 					NewRow.Name = dr.GetFieldValue<string>(dr.GetOrdinal("Name"));
 					NewRow.Timestamp = dr.GetFieldValue<byte[]>(dr.GetOrdinal("Timestamp"));
@@ -2920,7 +2920,7 @@ namespace BB.DataLayer
 	{
 		public const string ERR_SAVE_FAILED = "Could not save Source record.";
 		public bool fail { get; set; }
-		public const long DEFAULT_SOURCE_ID = 362872286;
+		public const long DEFAULT_SOURCE_ID = 595168639;
 		public override string GetInsertSQL()
 		{
 			return String.Empty;

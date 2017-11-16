@@ -1,0 +1,18 @@
+﻿@model List<BB.DataContracts.CurrentItemCategory>
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+<h2>Categories</h2>
+<table>
+    @foreach (var cat in Model)
+    {
+    <tr>
+        <td>
+            @cat.Description;
+        </td>
+    </tr>
+    }
+</table>
+

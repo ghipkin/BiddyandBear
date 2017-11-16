@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/BB.DataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/BB.DataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="RegisterCustomerRequest">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="RegisterCustomerRequest" nillable="true" type="tns:RegisterCustomerRequest" />
+  <xs:complexType name="RegisterUserResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ServiceResponse">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RegisterUserResponse" nillable="true" type="tns:RegisterUserResponse" />
+  <xs:complexType name="ServiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CallResult" type="xs:int" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageType" type="tns:MessageType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ServiceResponse" nillable="true" type="tns:ServiceResponse" />
+  <xs:simpleType name="MessageType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="Information" />
+      <xs:enumeration value="Warning" />
+      <xs:enumeration value="Error" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MessageType" nillable="true" type="tns:MessageType" />
+  <xs:complexType name="ChangePasswordRequest">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="ChangePasswordRequest" nillable="true" type="tns:ChangePasswordRequest" />
+  <xs:complexType name="ChangePasswordResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ServiceResponse">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ChangePasswordResponse" nillable="true" type="tns:ChangePasswordResponse" />
+  <xs:complexType name="PlaceOrderRequest">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="PlaceOrderRequest" nillable="true" type="tns:PlaceOrderRequest" />
+  <xs:complexType name="PlaceOrderResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ServiceResponse">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PlaceOrderResponse" nillable="true" type="tns:PlaceOrderResponse" />
+  <xs:complexType name="RetrieveItemCategoriesRequest">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="RetrieveItemCategoriesRequest" nillable="true" type="tns:RetrieveItemCategoriesRequest" />
+  <xs:complexType name="RetrieveItemCategoriesResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ServiceResponse">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RetrieveItemCategoriesResponse" nillable="true" type="tns:RetrieveItemCategoriesResponse" />
+  <xs:complexType name="RetrieveItemsRequest">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:element name="RetrieveItemsRequest" nillable="true" type="tns:RetrieveItemsRequest" />
+  <xs:complexType name="RetrieveItemsResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ServiceResponse">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="RetrieveItemsResponse" nillable="true" type="tns:RetrieveItemsResponse" />
+</xs:schema>

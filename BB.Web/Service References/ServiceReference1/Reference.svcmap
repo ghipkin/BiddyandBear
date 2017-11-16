@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="42281826-0472-4fc9-aecc-e2a96c162a75" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:209/BBService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BBService.xsd" MetadataType="Schema" ID="43ff9628-7851-4c28-86a9-a6a5d7868a36" SourceId="1" SourceUrl="http://it500574.ho.pfgroup.provfin.com:209/BBService.svc?xsd=xsd2" />
+    <MetadataFile FileName="BBService.disco" MetadataType="Disco" ID="9e622f7a-ee55-429d-abfd-9ef33a20b91f" SourceId="1" SourceUrl="http://it500574.ho.pfgroup.provfin.com:209/BBService.svc?disco" />
+    <MetadataFile FileName="BBService.wsdl" MetadataType="Wsdl" ID="53861323-25b7-406f-a17b-ddab2fa2c20b" SourceId="1" SourceUrl="http://it500574.ho.pfgroup.provfin.com:209/BBService.svc?wsdl" />
+    <MetadataFile FileName="BBService1.xsd" MetadataType="Schema" ID="7a4b062c-017f-46bc-8b55-7814b9aa1314" SourceId="1" SourceUrl="http://it500574.ho.pfgroup.provfin.com:209/BBService.svc?xsd=xsd0" />
+    <MetadataFile FileName="BBService2.xsd" MetadataType="Schema" ID="4b2fe5e8-cf8c-4671-839c-29ec0bd6d460" SourceId="1" SourceUrl="http://it500574.ho.pfgroup.provfin.com:209/BBService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

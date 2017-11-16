@@ -33,6 +33,7 @@
             this.GenerateMapping = new System.Windows.Forms.Button();
             this.lblInstruction = new System.Windows.Forms.Label();
             this.lblWarning2 = new System.Windows.Forms.Label();
+            this.GenerateModel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DataLayer
@@ -82,7 +83,16 @@
             this.lblWarning2.Size = new System.Drawing.Size(251, 26);
             this.lblWarning2.TabIndex = 3;
             this.lblWarning2.Text = "CHECK AGAINST PREVIOUS VERSION BEFORE CHECKING INTO SOURCE CONTROL";
-            this.lblWarning2.Click += new System.EventHandler(this.lblWarning2_Click);
+            // 
+            // GenerateModel
+            // 
+            this.GenerateModel.Location = new System.Drawing.Point(51, 195);
+            this.GenerateModel.Name = "GenerateModel";
+            this.GenerateModel.Size = new System.Drawing.Size(139, 23);
+            this.GenerateModel.TabIndex = 4;
+            this.GenerateModel.Text = "GenerateModel";
+            this.GenerateModel.UseVisualStyleBackColor = true;
+            this.GenerateModel.Click += new System.EventHandler(this.GenerateModel_Click);
             // 
             // GenerateCode
             // 
@@ -90,6 +100,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(355, 262);
+            this.Controls.Add(this.GenerateModel);
             this.Controls.Add(this.lblWarning2);
             this.Controls.Add(this.lblInstruction);
             this.Controls.Add(this.GenerateMapping);
@@ -109,6 +120,7 @@
         private System.Windows.Forms.Button GenerateMapping;
         private System.Windows.Forms.Label lblInstruction;
         private System.Windows.Forms.Label lblWarning2;
+        private System.Windows.Forms.Button GenerateModel;
     }
 }
 

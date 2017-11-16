@@ -109,7 +109,7 @@ namespace BB.Implementation.UnitTest
             //ASSERT
             Assert.AreEqual(0, result.CallResult);
             Assert.IsTrue(String.IsNullOrEmpty(result.Message));
-            Assert.AreEqual(2, result.Items.Count);//Should be only two results;
+            Assert.AreEqual(2, result.Items.Count());//Should be only two results;
 
             var returnedItem1 = (DataContracts.CurrentItem)result.Items.Where(x => x.Id == Common.ITEM1_ID).SingleOrDefault();
             Assert.AreEqual(Common.CATEGORY1_ID, returnedItem1.CategoryId);

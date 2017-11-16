@@ -7,6 +7,7 @@ namespace BB.DataContracts
     public class RetrieveItemCategoriesRequest
     {
     }
+
     [DataContract]
     public class RetrieveItemsRequest
     {

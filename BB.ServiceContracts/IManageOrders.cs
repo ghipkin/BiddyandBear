@@ -6,18 +6,19 @@ namespace BB.ServiceContracts
     [ServiceContract]
     public interface IManageOrders
     {
-        [OperationBehavior]
+        [OperationContract]
         RegisterUserResponse RegisterUser(RegisterCustomerRequest request);
 
-        [OperationBehavior]
+        [OperationContract]
         ChangePasswordResponse ChangePassword(ChangePasswordRequest request);
 
-        [OperationBehavior]
+        [OperationContract]
         PlaceOrderResponse PlaceOrder(PlaceOrderRequest request);
 
-        [OperationBehavior]
+        [OperationContract]
         RetrieveItemCategoriesResponse RetrieveItemCategories(RetrieveItemCategoriesRequest request);
 
+        [OperationContract]
         RetrieveItemsResponse RetrieveItems(RetrieveItemsRequest request);
     }
 }

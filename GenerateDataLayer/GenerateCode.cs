@@ -365,7 +365,7 @@ namespace GenerateDataLayer
             sb.Append("\t\t\t+ \" FROM ");
             sb.Append(TableName);
             sb.AppendLine("\";");
-            sb.AppendLine("\t\t\tif(WhereParams != null || WhereParams.Count == 0)");
+            sb.AppendLine("\t\t\tif(WhereParams != null && WhereParams.Count > 0)");
             sb.AppendLine("\t\t\t{");
             sb.AppendLine("\t\t\t\tvar sbSQL = new StringBuilder();");
             sb.AppendLine("\t\t\t\tsbSQL.Append(FirstSQL);");
@@ -385,7 +385,7 @@ namespace GenerateDataLayer
             sb.AppendLine("\t\t\t\tSQL = FirstSQL;");
             sb.AppendLine("\t\t\t}");
             sb.AppendLine("\t\t\tusing (SqlConnection cn = GetSQLConnection())");
-            sb.AppendLine("\t\t\tusing (SqlCommand cmd = new SqlCommand(SQL))");
+            sb.AppendLine("\t\t\tusing (SqlCommand cmd = new SqlCommand(SQL, cn))");
             sb.AppendLine("\t\t\tusing (SqlDataReader dr = cmd.ExecuteReader())");
             sb.AppendLine("\t\t\t{");
             sb.Append("\t\t\t\tresult = new List<ADL_");
@@ -398,13 +398,27 @@ namespace GenerateDataLayer
             sb.AppendLine("();");
             foreach (var field in Fields)
             {
+                bool IDField = (field.SQLDataType == "numeric" && field.NumericScale == 0);
                 sb.Append("\t\t\t\t\tNewRow.");
                 sb.Append(field.FieldName);
-                sb.Append(" = dr.GetFieldValue<");
-                sb.Append(GetDotNetDataType(field.SQLDataType, field.NumericScale));
+                sb.Append(" = ");
+                if(IDField)
+                {
+                    sb.Append("(long)");
+                }
+                sb.Append("dr.GetFieldValue<");
+                if (IDField)
+                {
+                    sb.Append("decimal");
+                }
+                else
+                {
+                    sb.Append(GetDotNetDataType(field.SQLDataType, field.NumericScale));
+                }
                 sb.Append(">(dr.GetOrdinal(\"");
                 sb.Append(field.FieldName);
-                sb.AppendLine("\"));");
+                sb.Append("\")");
+                sb.AppendLine(");");
             }
             sb.AppendLine("\t\t\t\t\tresult.Add(NewRow);");
             sb.AppendLine("\t\t\t\t}");
@@ -1109,8 +1123,64 @@ namespace GenerateDataLayer
             sb.AppendLine(";");
         }
 
-        private void lblWarning2_Click(object sender, EventArgs e)
+        private void GenerateModel_Click(object sender, EventArgs e)
         {
+            StringBuilder sb = null;
+            List<DatabaseField> DatabaseFields = GetExternalDatabaseFields();
+            if (DatabaseFields.Count > 0)
+            {
+
+                sb = new StringBuilder();
+
+                sb.AppendLine("using System;");
+                sb.AppendLine("using System.Runtime.Serialization;");
+                sb.AppendLine("using System.Collections.Generic;");
+                sb.AppendLine("using System.Data;");
+                sb.AppendLine("using System.Data.SqlClient;");
+                sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+                sb.AppendLine();
+                sb.AppendLine("namespace BB.Web.Models");
+                sb.AppendLine("{");
+
+
+                string CurrentTable = string.Empty;
+                foreach (var Field in DatabaseFields)
+                {
+                    if (CurrentTable != Field.TableName)
+                    {
+                        if (!string.IsNullOrEmpty(CurrentTable))
+                        {
+                            sb.AppendLine("\t}");
+                        }
+                        sb.AppendLine("\t[ExcludeFromCodeCoverage]");
+                        sb.Append("\tpublic class ");
+                        sb.AppendLine(Field.TableName);
+                        sb.AppendLine("\t{");
+                    }
+
+                    sb.Append("\t\tpublic ");
+                    sb.Append(GetDotNetDataType(Field.SQLDataType, Field.NumericScale));
+                    sb.Append(" ");
+                    sb.Append(Field.FieldName);
+                    sb.AppendLine(" { get; set; }");
+
+                    CurrentTable = Field.TableName;
+                }
+
+                sb.AppendLine("\t}");
+                sb.AppendLine("}");
+                string filename = Application.StartupPath + "\\..\\..\\..\\BB.Web\\Models\\BBModels.cs";
+                if (File.Exists(filename))
+                {
+                    File.Delete(filename);
+                }
+
+                using (var fs = new FileStream(filename, FileMode.CreateNew))
+                {
+                    fs.Write(Encoding.ASCII.GetBytes(sb.ToString()), 0, sb.ToString().Length);
+                    fs.Flush();
+                }
+            }
 
         }
     }
